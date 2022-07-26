@@ -163,6 +163,12 @@ Route::controller(VehicleController::class)->group(function () {
     Route::resource("permission", PermissionController::class);
 // });
 
+Route::controller(FeeController::class)->group(function () {
+    Route::post('/fee-slip', 'fee_slip');
+});
+
+
+
 Route::any('/dashboard', function() {
     return view('dashboard.index');
 })->name('dashboard');

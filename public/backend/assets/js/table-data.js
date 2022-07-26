@@ -260,12 +260,15 @@ $(function (e) {
 		if ($('.chkbox-select-all-admission').is(':checked')) {
 			$('.chkbox-select-admission').prop('checked', true);
 			var promote_btn = $('#promote').length;
-			if (promote_btn == 0) {
+			var student_slip = $('#student-slip').length;
+			if (promote_btn == 0 && student_slip == 0) {
+				$('.table-heading').after("&nbsp;&nbsp;<button class='btn btn-sm btn-primary' id='student-slip'> Student Slip </button>");
 				$('.table-heading').after("&nbsp;&nbsp;<button data-bs-target='#promote-student-modal' data-bs-toggle='modal' class='btn btn-sm btn-primary' id='promote'> Promote </button>");
 			}
 		} else {
 			$('.chkbox-select-admission').prop('checked', false);
 			$('#promote').remove();
+			$('#student-slip').remove();
 		}
 	});
 
@@ -281,13 +284,82 @@ $(function (e) {
 
 		if (checked_check_box == 0) {
 			$('#promote').remove();
+			$('#student-slip').remove();
 		} else {
-			var promote_btn = $('#promote').length;
+			var promote_btn = $('#promote').length; e.preventDefault();
 
-			if (promote_btn == 0) {
+			var student_slip = $('#student-slip').length;
+
+			if (promote_btn == 0 && student_slip == 0) {
+				$('.table-heading').after("&nbsp;&nbsp;<button class='btn btn-sm btn-primary' id='student-slip'> Student Slip </button>");
 				$('.table-heading').after("&nbsp;&nbsp;<button data-bs-target='#promote-student-modal' data-bs-toggle='modal' class='btn btn-sm btn-primary' id='promote'> Promote </button>");
 			}
 		}
+	});
+
+	$(document).on('click', '#student-slip', function (e) {
+		e.preventDefault();
+
+		var ids = [];
+		$('.chkbox-select-admission:checked').each(function () {
+			var registration_id = (this.checked ? $(this).attr('data-id') : "");
+			if (registration_id) {
+				ids.push(registration_id);
+			}
+		});
+
+		formData = {
+			"ids": ids
+		}
+		$.ajax({
+			url: baseUrl + '/fee-slip',
+			type: "POST",
+			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+			data: formData,
+			dataType: "json",
+			success: function (response) {
+				if (response.status === false) {
+
+					if (response.error) {
+
+						message += `<div class="alert alert-danger alert-dismissible">
+										<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+										<strong> Success!</strong> `+ response.message + `
+									</div>`;
+
+					} else {
+						message += `<div class="alert alert-danger alert-dismissible">
+										<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+										<strong> Success!</strong> `+ response.message + `
+									</div>`;
+					}
+
+				} else {
+
+					message += `<div class="alert alert-success alert-dismissible">
+									<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+									<strong> Success!</strong> `+ response.message + `
+								</div>`;
+
+				}
+			},
+			error: function () {
+
+				message = `<div class="alert alert-danger alert-dismissible">
+								<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+								<strong> Whoops !</strong> Something went wrong please contact to admintrator.
+							</div>`;
+
+			},
+			complete: function () {
+
+				if (message !== '') {
+					$(".table-responsive").prepend(message);
+				}
+
+			}
+		});
+
 	});
 
 	$(document).on('click', '#btn-delete-admission', function () {
