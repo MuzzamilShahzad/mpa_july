@@ -1,0 +1,59 @@
+// Area Query
+
+INSERT INTO `areas` (`id`, `area`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'Incholi', '1', '0', NULL, NULL), (NULL, 'Naseerabad', '1', '0', NULL, NULL);
+
+// Campus Query
+
+INSERT INTO `campuses` (`id`, `campus`, `address`, `phone`, `email`, `active_session`, `logo`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'Campus I', 'Karachi, Pakistan', '03411126905', 'campus@test.com', '4', NULL, '1', '0', NULL, NULL), (NULL, 'Campus II', 'Karachi, Pakistan', '03432745000', 'campus2@test.com', '4', NULL, '1', '0', NULL, NULL);
+
+// Systems
+
+INSERT INTO `systems` (`id`, `system`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'O Level', '1', '0', NULL, NULL), (NULL, 'A Level', '1', '0', NULL, NULL);
+
+// Campus Details
+
+INSERT INTO `campus_details` (`id`, `short_name`, `campus_id`, `system_id`, `created_at`, `updated_at`) VALUES (NULL, 'COL', '1', '1', NULL, NULL), (NULL, 'CAL', '1', '2', NULL, NULL);
+INSERT INTO `campus_details` (`id`, `short_name`, `campus_id`, `system_id`, `created_at`, `updated_at`) VALUES (NULL, 'DOL', '2', '1', NULL, NULL), (NULL, 'DAL', '2', '2', NULL, NULL);
+
+// Classes
+
+INSERT INTO `classes` (`id`, `class`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'VIII', '1', '0', NULL, NULL), (NULL, 'IX', '1', '0', NULL, NULL);
+INSERT INTO `classes` (`id`, `class`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'X', '1', '0', NULL, NULL), (NULL, 'VII', '1', '0', NULL, NULL);
+
+// Campus classess
+
+INSERT INTO `campus_classes` (`id`, `campus_detail_id`, `class_id`, `created_at`, `updated_at`) VALUES (NULL, '2', '2', NULL, NULL), (NULL, '2', '3', NULL, NULL);
+INSERT INTO `campus_classes` (`id`, `campus_detail_id`, `class_id`, `created_at`, `updated_at`) VALUES (NULL, '2', '4', NULL, NULL), (NULL, '2', '1', NULL, NULL);
+INSERT INTO `campus_classes` (`id`, `campus_detail_id`, `class_id`, `created_at`, `updated_at`) VALUES (NULL, '1', '2', NULL, NULL), (NULL, '1', '3', NULL, NULL);
+INSERT INTO `campus_classes` (`id`, `campus_detail_id`, `class_id`, `created_at`, `updated_at`) VALUES (NULL, '8', '4', NULL, NULL), (NULL, '8', '1', NULL, NULL);
+INSERT INTO `campus_classes` (`id`, `campus_detail_id`, `class_id`, `created_at`, `updated_at`) VALUES (NULL, '7', '3', NULL, NULL), (NULL, '7', '2', NULL, NULL);
+
+// Groups
+
+INSERT INTO `groups` (`id`, `group`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'Science', '1', '0', NULL, NULL), (NULL, 'Computer', '1', '0', NULL, NULL);
+INSERT INTO `groups` (`id`, `group`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, '', '1', '0', NULL, NULL), (NULL, 'Biology', '1', '0', NULL, NULL);
+
+// Class Groups
+
+INSERT INTO `class_groups` (`id`, `class_id`, `group_id`, `created_at`, `updated_at`) VALUES (NULL, '2', '4', NULL, NULL), (NULL, '2', '2', NULL, NULL), (NULL, '3', '1', NULL, NULL), (NULL, '1', '1', NULL, NULL), (NULL, '4', '1', NULL, NULL);
+
+
+// Cities
+
+INSERT INTO `cities` (`id`, `city`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'Karachi', '1', '0', NULL, NULL), (NULL, 'Hyderabad', '1', '0', NULL, NULL);
+
+// Sections
+
+INSERT INTO `sections` (`id`, `section`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'A', '1', '0', NULL, NULL), (NULL, 'B', '1', '0', NULL, NULL);
+
+// Section
+
+INSERT INTO `sessions` (`id`, `session`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, '2022-2023', '1', '0', NULL, NULL), (NULL, '2021-2022', '1', '0', NULL, NULL);
+
+// Test Interview
+
+INSERT INTO `test_interview_groups` (`id`, `session_id`, `name`, `type`, `date`, `time`, `created_at`, `updated_at`) VALUES (NULL, '1', 'TEST', 'test', '2022-07-16', '21:38:00', NULL, NULL), (NULL, '1', 'Interview', 'interview', '2022-07-16', '19:38:00', NULL, NULL);
+
+// Vehicle
+
+INSERT INTO `vehicles` (`id`, `number`, `maker`, `chassis_number`, `engine_number`, `capacity`, `vehicle_type`, `is_active`, `is_delete`, `created_at`, `updated_at`) VALUES (NULL, 'vra4729', 'unique', '123', '132', '5', 'private_van', '1', '0', NULL, NULL), (NULL, 'KEY4033', 'YAMAHA', 'YM123', 'YM321', '2', 'school_van', '1', '0', NULL, NULL);

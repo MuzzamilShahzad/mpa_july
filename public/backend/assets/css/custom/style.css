@@ -1,0 +1,40 @@
+.radio-btn {
+    margin-left: 1px;
+}
+
+.radio-btn label {
+    text-align: left;
+    width: 60px;
+}
+
+form input:checked+label:after {
+    content: none;
+}
+
+form input:checked+label:before {
+    top: 2px;
+    margin-right: 4px;
+}
+
+/* .btn-group>.btn:not(:first-child) {
+    margin-left: 5px;
+} */
+
+.selectgroup-input:checked+.selectgroup-button {
+    border-color: #6e85ec;
+    color: #ffffff;
+    background: #8897e3;
+}
+
+.select2-selection__clear {
+    margin-top: 1px;
+    margin-right: 10px;
+}
+
+.has-error {
+    border-color: #fd6074 !important;
+}
+
+.error{
+    color: #fd6074;
+}
