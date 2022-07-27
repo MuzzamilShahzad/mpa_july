@@ -163,11 +163,11 @@ Route::controller(VehicleController::class)->group(function () {
 // });
 
 Route::controller(FeeController::class)->group(function () {
-    Route::post('/fee-slip', 'fee_slip');
+    Route::get('/fee-slip', 'fee_slip');
     Route::get('/fees/student', 'studentListing')->name('fees.studentListing');
 });
 
-
+Route::view('/fees-modal', 'fees/student/collect-fees-modal');
 
 Route::any('/dashboard', function() {
     return view('dashboard.index');
