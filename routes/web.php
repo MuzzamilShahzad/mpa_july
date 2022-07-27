@@ -141,7 +141,6 @@ Route::controller(AdmissionController::class)->group(function () {
     
     Route::get('/admission/export-excel', 'exportExcel');
 
-    // Excel::create('Filename');
 });
 
 //Vehicle routes
