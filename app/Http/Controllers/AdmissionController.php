@@ -719,13 +719,28 @@ class AdmissionController extends Controller
 
             return response()->json($response);
         } else {
-            $query = Admission::whereIn('id', $request->registeration_ids)->update([
+            // $query = Admission::whereIn('id', $request->registeration_ids)->update([
+            //     "campus_id"             => $request->campus_id,
+            //     "system_id"             => $request->system_id,
+            //     "class_id"              => $request->class_id,
+            //     "session_id"            => $request->session_id,
+            //     "group_id"              => $request->group_id,
+            // ]);
+
+            $data = array(
                 "campus_id"             => $request->campus_id,
                 "system_id"             => $request->system_id,
                 "class_id"              => $request->class_id,
                 "session_id"            => $request->session_id,
-                "group_id"              => $request->group_id,
-            ]);
+                // "group_id"              => $request->group_id,
+                "section_id"            => $request->section_id,
+            );
+            
+            if(isset($request->group_id) && $request->group_id > 0){
+                $data['group_id'] = $request->group_id;
+            }
+            
+            $query = Admission::whereIn('id', $request->registeration_ids)->update($data);
 
             if ($query) {
                 $response = array(

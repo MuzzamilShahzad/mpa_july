@@ -132,7 +132,8 @@ $(document).ready(function () {
             flag = false;
         }
         // if (class_group_id == "" || class_group_id == "0") {
-        if ($("#group-id:not([disabled])")) {
+        // if ($("#group-id:not([disabled])")) {
+        if ($("#group-id").prop('disabled') == false) {
             if (group_id == "") {
                 $("#group-id").siblings("span").find(".select2-selection--single").addClass("has-error");
                 $("#group-id").siblings("span").after("<span class='error'>This field is required.</span>");
@@ -650,7 +651,8 @@ $(document).ready(function () {
             $("#class-id:not([disabled]").siblings("span").after("<span class='error'>This field is required.</span>");
             flag = false;
         }
-        if ($("#group-id:not([disabled])")) {
+        // if ($("#group-id:not([disabled])")) {
+        if ($("#group-id").prop('disabled') == false) {
             if (group_id == "") {
                 $("#group-id").siblings("span").find(".select2-selection--single").addClass("has-error");
                 $("#group-id").siblings("span").after("<span class='error'>This field is required.</span>");

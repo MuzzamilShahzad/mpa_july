@@ -140,7 +140,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold date-picker">Date of Birth</label>
-                                            <input class="form-control date-picker bg-transparent" name="dob" id="dob" placeholder="DD-MM-YYYY" type="text" readonly>
+                                            <input class="form-control date-picker bg-transparent" name="dob" id="dob" placeholder="DD-MM-YYYY" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
@@ -212,7 +212,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold date-picker">Admission Date</label>
-                                            <input class="form-control date-picker bg-transparent" name="admission_date" id="admission-date" placeholder="DD-MM-YYYY" type="text" readonly>
+                                            <input class="form-control date-picker bg-transparent" name="admission_date" id="admission-date" placeholder="DD-MM-YYYY" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
@@ -260,7 +260,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold date-picker">As on Date</label>
-                                            <input class="form-control date-picker bg-transparent" name="as_on_date" id="as-on-date" placeholder="DD-MM-YYYY" type="text" readonly>
+                                            <input class="form-control date-picker bg-transparent" name="as_on_date" id="as-on-date" placeholder="DD-MM-YYYY" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
