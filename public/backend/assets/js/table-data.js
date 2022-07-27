@@ -620,6 +620,137 @@ $(function (e) {
 		});
 	});
 
+	studentFeesListing();
+
+	$("#btn-admission-search").on("click", function (e) {
+
+		e.preventDefault();
+		studentFeesListing();
+
+	});
+
+	function studentFeesListing() {
+
+		var session_id = $("#session-id").val();
+		var campus_id = $("#campus-id").val();
+		var system_id = $("#system-id").val();
+		var class_id = $("#class-id").val();
+		var group_id = $("#group-id").val();
+		var section_id = $("#section-id").val();
+
+		$('#admission-listing-datatable').DataTable({
+			destroy: true,
+			searchable: false,
+			responsive: true,
+			ajax: {
+				url: baseUrl + '/admission/listingBySessionSystemClassGroupSection',
+				data: {
+					session_id: session_id,
+					campus_id: campus_id,
+					system_id: system_id,
+					class_id: class_id,
+					group_id: group_id,
+					section_id: section_id,
+				},
+			},
+			columnDefs: [
+				{
+					orderable: false,
+					targets: [0, 1, 8]
+				},
+				{
+					"targets": 0,
+					"render": function (data) {
+						return '';
+					}
+				},
+				{
+					"targets": 1,
+					"render": function (data) {
+						var checkbox = `<div class="form-check">
+											<input class="form-check-input chkbox-select-admission" type="checkbox" data-id="`+ data.id + `">
+										</div>`;
+						return checkbox;
+					}
+				},
+				{
+					"targets": 2,
+					"render": function (data) {
+
+						var temporary_gr = 'N/A';
+						if (data.temporary_gr !== '' && data.temporary_gr !== null) {
+							temporary_gr = data.temporary_gr;
+						}
+
+						var gr = 'N/A'
+						if (data.gr !== '' && data.gr !== null) {
+							gr = data.gr;
+						}
+
+
+						return temporary_gr + ' / ' + gr;
+					}
+				},
+				{
+					"targets": 5,
+					"render": function (data) {
+						var data = JSON.parse(data);
+						return data.name;
+					}
+				},
+				{
+					"targets": 6,
+					"render": function (data) {
+						return data.campus + ' ( ' + data.system + ' ) ';
+					}
+				},
+				{
+					"targets": 7,
+					"render": function (data) {
+
+						var class_group = data.class;
+
+						if (data.group !== '' && data.group !== null) {
+							class_group += ' ( ' + data.group + ' ) '
+						}
+						return class_group;
+					}
+				},
+				{
+					"targets": 10,
+					"render": function (data) {
+						var checkbox = `<a>
+											<i class="fas fa-dollar" id="btn-collect-fees="`+ data.id + `" title="Edit"></i> 
+										</a>|
+										<a href="` + (baseUrl + '/admission/export-excel?admission_id=' + data.id) + `">
+											<i class="fas fa-file-excel" id="btn-excel-download-admission="`+ data.id + `" title="Edit"></i> 
+										</a>|
+										<i class="fas fa-check" id="btn-view-admission" data-id="` + data.id + `" title="View"></i> |
+										<a href="`+ (baseUrl + '/admission/edit/' + data.id) + `">
+											<i class="fas fa-edit" id="btn-edit-admission" data-id="`+ data.id + `" title="Edit"></i> 
+										</a>|
+						 				<i class="fas fa-trash" id="btn-delete-admission" data-id="`+ data.id + `" title="Delete"></i>`;
+						return checkbox;
+					}
+				},
+			],
+			order: [[2, 'asc']],
+			columns: [
+				{ data: null },
+				{ data: null },
+				{ data: null },
+				{ data: 'first_name' },
+				{ data: 'last_name' },
+				{ data: 'father_details' },
+				{ data: null },
+				{ data: null },
+				{ data: 'section' },
+				{ data: 'admission_date' },
+				{ data: null },
+			],
+		});
+	}
+
 	$('#modal-datatable').DataTable({
 		responsive: {
 			details: {

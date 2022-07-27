@@ -6,6 +6,12 @@ use App\Models\Fee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Admission;
+use App\Models\Session;
+use App\Models\Campus;
+use App\Models\Section;
+use App\Models\Area;
+use App\Models\City;
+use App\Models\Classes;
 
 class FeeController extends Controller
 {
@@ -77,9 +83,56 @@ class FeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function studentListing(Request $request){
+        
+        $session    =  Session::get();
+        $campus     =  Campus::where('is_active',1)->where('is_delete',0)->get();
+        $section    =  Section::get();
+        $area       =  Area::get();
+        $city       =  City::get();
+        $class      =  Classes::get();
+        
+        if($request->session_id){
+            $where['session_id'] = $request->session_id;
+        }
+        
+        if($request->campus_id){
+            $where['campus_id'] = $request->campus_id;
+        }
+        
+        if($request->system_id){
+            $where['system_id'] = $request->system_id;
+        }
+        
+        if($request->class_id){
+            $where['class_id'] = $request->class_id;
+        }
+
+        if($request->group_id){
+            $where['group_id'] = $request->group_id;
+        }
+
+        if($request->section_id){
+            $where['section_id'] = $request->section_id;
+        }
+
+        $where['is_active'] = 1;
+        $where['is_delete'] = 0;
+        $admission  =  Admission::where($where)->get();
+        
+        $data = array(
+            'session'    =>  $session,
+            'campus'     =>  $campus,
+            'section'    =>  $section,
+            'class'      =>  $class,
+            'area'       =>  $area,
+            'city'       =>  $city,
+            'admission'  =>  $admission,
+            'page'       =>  'Fees',
+            'menu'       =>  'Students Listing'
+        );
+
+        return view('fees.student.listing', compact('data'));
     }
 
     /**

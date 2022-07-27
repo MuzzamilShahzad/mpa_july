@@ -127,6 +127,7 @@ class AdmissionController extends Controller
                                 ->leftJoin('groups','groups.id','=','admissions.group_id')
                                 ->leftJoin('sections','sections.id','=','admissions.section_id')
                                 ->where($where)
+                                // ->where('admissions.id',1)
                                 ->get();
         $response = array(
             'data'         =>  $admission
