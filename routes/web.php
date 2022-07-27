@@ -172,5 +172,3 @@ Route::controller(FeeController::class)->group(function () {
 Route::any('/dashboard', function() {
     return view('dashboard.index');
 })->name('dashboard');
-
-Route::view('/slip', 'slip');
