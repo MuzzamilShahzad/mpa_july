@@ -2042,7 +2042,6 @@ $(document).ready(function () {
         //     flag = false;
         // }
 
-        console.log(flag);
         if (flag) {
 
             $("#btn-save-promotion").addClass('disabled');
@@ -2232,7 +2231,6 @@ $(document).ready(function () {
             flag = false;
         }
 
-        console.log(flag);
         if (flag) {
 
             $("#btn-save-promotion").addClass('disabled');

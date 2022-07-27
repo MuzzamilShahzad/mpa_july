@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('fees_types', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('fees_type',20)->unique();
+            $table->string('fee_type',20)->unique();
             $table->string('short_code',3)->unique();
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_delete')->default(0);

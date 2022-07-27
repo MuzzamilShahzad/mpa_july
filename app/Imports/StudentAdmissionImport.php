@@ -58,16 +58,16 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
     {
         foreach($rows as $row) {
 
+
             $admisssion                         = new Admission();
             // $admisssion->campus_id              = (isset($this->campus_id)  && !empty($this->campus_id)     ? $this->campus_id      : 2);
-            $admisssion->campus_id              = 1;
+            $admisssion->campus_id              = 3;
             $admisssion->class_id               = (isset($this->class_id)   && !empty($this->class_id)      ? $this->class_id       : $row["class_id"]);
             $admisssion->section_id             = isset($this->section_id) ? $this->section_id : $row["section_id"] ;
-            $admisssion->session_id             = isset($this->session_id) ? $this->session_id : '1' ;
+            $admisssion->session_id             = 2;
             $admisssion->group_id               = isset($this->group_id) ? $this->group_id : NULL;
-            // $admisssion->system_id              = (isset($this->system_id)   && !empty($this->system_id)      ? $this->system_id       : $row["system_id"]);
+            $admisssion->system_id              = 2;
             // dd($admisssion->system_id.$row["last_name"]);
-            $admisssion->system_id              = 1;
             $admisssion->temporary_gr           = isset($row["temporary_gr"]) ? $row["temporary_gr"] : '';
 
             // dd($admisssion->temporary_gr);
@@ -169,9 +169,6 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
 
 
         $data["admission_year"]                 = isset($data["admission_year"]) ? (int)$data["admission_year"] : "";
-
-        // dd($data);
-
 
         if(isset($data["class"]) && !empty($data["class"])) {
             $result                             = Classes::where('class', $data["class"])->first();
