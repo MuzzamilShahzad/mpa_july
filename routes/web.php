@@ -25,7 +25,7 @@ Route::get('/', function () {
 });
 
 
-Route::view('/check', 'check');
+// Route::view('/check', 'check');
 
 //System routes
 Route::controller(SystemController::class)->group(function () {
