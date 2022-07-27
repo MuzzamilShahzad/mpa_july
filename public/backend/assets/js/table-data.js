@@ -262,7 +262,7 @@ $(function (e) {
 			var promote_btn = $('#promote').length;
 			var student_slip = $('#student-slip').length;
 			if (promote_btn == 0 && student_slip == 0) {
-				$('.table-heading').after("&nbsp;&nbsp;<button class='btn btn-sm btn-primary' id='student-slip'> Student Slip </button>");
+				$('.table-heading').after("&nbsp;&nbsp;<button data-bs-target='#print-sticker-modal' data-bs-toggle='modal' class='btn btn-sm btn-primary' id='student-slip'> Student Slip </button>");
 				$('.table-heading').after("&nbsp;&nbsp;<button data-bs-target='#promote-student-modal' data-bs-toggle='modal' class='btn btn-sm btn-primary' id='promote'> Promote </button>");
 			}
 		} else {
@@ -311,9 +311,11 @@ $(function (e) {
 		formData = {
 			"ids": ids
 		}
+		var message = '';
+
 		$.ajax({
 			url: baseUrl + '/fee-slip',
-			type: "POST",
+			type: "GET",
 			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 			data: formData,
 			dataType: "json",
@@ -328,6 +330,7 @@ $(function (e) {
 									</div>`;
 
 					} else {
+
 						message += `<div class="alert alert-danger alert-dismissible">
 										<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 										<strong> Success!</strong> `+ response.message + `
@@ -336,10 +339,7 @@ $(function (e) {
 
 				} else {
 
-					message += `<div class="alert alert-success alert-dismissible">
-									<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-									<strong> Success!</strong> `+ response.message + `
-								</div>`;
+					$('#print-sticker-modal-body').html(response.message)
 
 				}
 			},
@@ -360,6 +360,17 @@ $(function (e) {
 			}
 		});
 
+	});
+
+	$(document).on('click', '#btn-print-sticker-modal-body', function (e) {
+		e.preventDefault();
+		var divToPrint = document.getElementById('print-sticker-modal-body');
+		var newWin = window.open('', 'Print-Window');
+		newWin.document.open();
+		newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+		// newWin.print();
+		// newWin.document.close();
+		// setTimeout(function () { newWin.close(); }, 10);
 	});
 
 	$(document).on('click', '#btn-delete-admission', function () {

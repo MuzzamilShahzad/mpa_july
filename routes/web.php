@@ -164,7 +164,7 @@ Route::controller(VehicleController::class)->group(function () {
 // });
 
 Route::controller(FeeController::class)->group(function () {
-    Route::post('/fee-slip', 'fee_slip');
+    Route::get('/fee-slip', 'fee_slip');
 });
 
 
