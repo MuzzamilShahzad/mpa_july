@@ -1089,6 +1089,7 @@ $(document).ready(function () {
 
     });
 
+    
     // Start data update script
     $("#btn-update-admission").on("click", function (e) {
         e.preventDefault();
