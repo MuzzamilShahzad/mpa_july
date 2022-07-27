@@ -25,7 +25,7 @@ Route::get('/', function () {
 });
 
 
-Route::view('/check', 'check');
+// Route::view('/check', 'check');
 
 //System routes
 Route::controller(SystemController::class)->group(function () {
@@ -141,7 +141,6 @@ Route::controller(AdmissionController::class)->group(function () {
     
     Route::get('/admission/export-excel', 'exportExcel');
 
-    // Excel::create('Filename');
 });
 
 //Vehicle routes
@@ -173,5 +172,3 @@ Route::controller(FeeController::class)->group(function () {
 Route::any('/dashboard', function() {
     return view('dashboard.index');
 })->name('dashboard');
-
-Route::view('/slip', 'slip');

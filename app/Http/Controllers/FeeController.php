@@ -12,6 +12,7 @@ use App\Models\Section;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Classes;
+use App\Models\FeesTypes;
 
 class FeeController extends Controller
 {
@@ -35,45 +36,64 @@ class FeeController extends Controller
             return response()->json($response);
         } else {
 
-            $admission_campus_ids = [];
-            $admission_class_ids = [];
+            // $admission_campus_ids = [];
+            // $admission_class_ids = [];
             
-            $admissions = Admission::select('admissions.*', 'fees_details.*', 'fees_types.*')
-            ->leftJoin('fees_details','fees_details.class_id', '=', 'admissions.class_id', 'fees_details.campus_id', '=', 'admissions.campus_id')
-            ->leftJoin('fees_types','fees_types.id', '=', 'fees_details.fees_type_id')
-            ->whereIn('admissions.id', $request->ids)
-            ->get();
+            // $admissions = Admission::select('admissions.*', 'fees_details.*', 'fees_types.*')
+            // ->leftJoin('fees_details','fees_details.class_id', '=', 'admissions.class_id', 'fees_details.campus_id', '=', 'admissions.campus_id')
+            // ->leftJoin('fees_types','fees_types.id', '=', 'fees_details.fees_type_id')
+            // ->whereIn('admissions.id', $request->ids)
+            // ->get();
 
-            return response()->json($admissions[0]);
+            $admissions = Admission::WhereIn('admissions.id', $request->ids)->get();
+            foreach($admissions as $admission) {
+                $admission->father_details = json_decode($admission->father_details, true);
+                $admission->address_details = json_decode($admission->address_details, true);
+                $admission->fees_details = $admission->feeDetails->toArray();
+                $fee_details_id = $admission->feeDetails->pluck('fees_type_id');
+                $feeTypes = FeesTypes::WhereIn('id',$fee_details_id)->get(['short_code', 'type'])->toArray();
+
+
+
+                $all_fees_types = [];
+                $i = 0;
+                foreach($feeTypes as $feeType) {
+                    $fees_types = [$feeType["short_code"] =>  $admission->fees_details[$i]["fees_amount"]];
+                    $all_fees_types = array_merge($all_fees_types, $fees_types);
+                    $i++;
+                }
+
+                $admission->fees_types = $all_fees_types;
+                $admission->section = $admission->section->section;
+                $admission->class = $admission->classes->class;
+                $admission->session = $admission->session->session;
+                $admission->campus = $admission->campus->campus;
+
+            }
+
+
+            if ($admissions) {
+
+                $data = array(
+                    'Admissions'            =>  $admissions
+                );
+    
+                $response = array(
+                    'status'   =>  true,
+                    'message'  =>  view('feescard.show', compact('data'))->render()
+                );
+
+                return response()->json($response);
+
+            } else {
+                $response = array(
+                    'status'   =>  false,
+                    'message'  =>  'Some thing went worng please try again letter'
+                );
+                return response()->json($response);
+            }
+
             
-
-            $data = array(
-                'page'                  =>  'Fees Card Sticker',
-                'menu'                  =>  'Fees Card Sticker',
-                'Admission'             =>  $admission
-            );
-
-            return view('feescard.show', compact('data'));
-
-
-            // $admissions = Admission::whereIn('admissions.id', $request->ids)
-            //     ->leftjoin('fees_details','fees_details.class_id', '=', 'admissions.class_id')
-            //     ->leftjoin('fees_details','fees_details.campus_id', '=', 'admissions.campus_id')
-            //     ->get();
-
-            
-            // $admissions = Admission::whereIn('id', $request->ids)->get();
-            // foreach($admissions as $admission) {
-            //     if(!in_array($admission->campus_id, $admission_campus_ids)) {
-            //         array_push($admission->campus_id, $admission_campus_ids);
-            //     }
-
-            //     if(!in_array($admission->class_id, $admission_class_ids)) {
-            //         array_push($admission->class_id ,$admission_class_ids);
-            //     }
-            // }
-
-            // return response()->json([$admission_campus_ids, $admission_class_ids]);
 
         }
     }

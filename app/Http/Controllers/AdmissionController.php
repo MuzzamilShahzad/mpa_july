@@ -707,6 +707,7 @@ class AdmissionController extends Controller
             'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
+            'section_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             // 'group_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'registeration_ids'         =>  'required|array'
         ]);
