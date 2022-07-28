@@ -734,8 +734,8 @@ $(function (e) {
 				{
 					"targets": 10,
 					"render": function (data) {
-						var checkbox = `<a>
-											<i class="fas fa-dollar" id="btn-collect-fees="`+ data.id + `" title="Edit"></i> 
+						var checkbox = `<a href=` + (baseUrl + '/fees/collect-fee?student_id=' + data.id) + `>
+											<i class="fas fa-dollar" id="btn-collect-fees="`+ data.id + `" title="Fees"></i> 
 										</a>|
 										<a href="` + (baseUrl + '/admission/export-excel?admission_id=' + data.id) + `">
 											<i class="fas fa-file-excel" id="btn-excel-download-admission="`+ data.id + `" title="Edit"></i> 

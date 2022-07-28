@@ -165,6 +165,8 @@ Route::controller(VehicleController::class)->group(function () {
 Route::controller(FeeController::class)->group(function () {
     Route::get('/fee-slip', 'fee_slip');
     Route::get('/fees/student', 'studentListing')->name('fees.studentListing');
+    Route::get('/fees/collect-fee', 'getStudentFeesRecord')->name('fees.collectFees');
+    Route::post('/fees/store', 'store')->name('fees.store');
 });
 
 Route::view('/fees-modal', 'fees/student/collect-fees-modal');

@@ -2328,20 +2328,22 @@ $(document).ready(function () {
         }
     });
 
-
     $('.btn-add-fee').on("click", function (e) {
         e.preventDefault();
 
         var data_id = $(this).attr("data-id");
+        var month_id = $(this).attr("month-id");
+        var fee_id = $(this).attr("fee-id");
+
         var month_name = "";
         var amount = 0;
         var fee = 0;
         var grand_total = 0;
         var discount = 0;
         var fine = 0;
-        var result = $("#table-body").find("[data-id='" + data_id + "']").length;
+        var month_length = $("#student-fee-collect-table-body").find("[month-id='" + month_id + "']").length;
 
-        if (result == 0) {
+        if (month_length == 0) {
 
             month_name = $(this).parent().parent().find(".month").html();
             discount = $(this).parent().parent().find(".discount").val();
@@ -2367,20 +2369,18 @@ $(document).ready(function () {
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
 
-            var table_row = "<tr class='fees-record'><td>" + month_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
-            $('#table-body').append(table_row);
-            $('.fees-record').each(function () {
-                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            var table_row = "<tr class='fees-row'><td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + month_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' month-id='" + month_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr > ";
+            $('#student-fee-collect-table-body').append(table_row);
+            $('.fees-row').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
             $('#grand-total').html(grand_total);
 
         } else {
-            $("#table-body").find("[data-id='" + data_id + "']").parent().parent().remove();
             month_name = $(this).parent().parent().find(".month").html();
             discount = $(this).parent().parent().find(".discount").val();
             fine = $(this).parent().parent().find(".fine").val();
             fee = $(this).parent().parent().find(".fee").val();
-
 
             if (!fine) {
                 fine = 0;
@@ -2399,11 +2399,10 @@ $(document).ready(function () {
             }
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
-
-            var table_row = "<tr class='fees-record'><td>" + month_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
-            $('#table-body').append(table_row);
-            $('.fees-record').each(function () {
-                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            var table_row = "<td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + month_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' month-id='" + month_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td>";
+            $("#student-fee-collect-table-body").find("[month-id='" + month_id + "']").parent().parent().html(table_row);
+            $('.fees-row').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
             $('#grand-total').html(grand_total);
         }
@@ -2414,13 +2413,14 @@ $(document).ready(function () {
         e.preventDefault();
 
         var data_id = $(this).attr("data-id");
+        var fee_id = $(this).attr("fee-id");
         var other_fee_name = "";
         var amount = 0;
         var fee = 0;
         var grand_total = 0;
         var discount = 0;
         var fine = 0;
-        var result = $("#table-body").find("[data-id='" + data_id + "']").length;
+        var result = $("#student-fee-collect-table-body").find("[data-id='" + data_id + "']").length;
 
         if (result == 0) {
 
@@ -2448,15 +2448,15 @@ $(document).ready(function () {
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
 
-            var table_row = "<tr class='fees-record'><td>" + other_fee_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
-            $('#table-body').append(table_row);
-            $('.fees-record').each(function () {
-                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            var table_row = "<tr class='fees-row'><td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + other_fee_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr > ";
+            $('#student-fee-collect-table-body').append(table_row);
+            $('.fees-row').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
             $('#grand-total').html(grand_total);
 
         } else {
-            $("#table-body").find("[data-id='" + data_id + "']").parent().parent().remove();
+
             other_fee_name = $(this).parent().parent().find(".other_fee_name").html();
             discount = $(this).parent().parent().find(".discount").val();
             fine = $(this).parent().parent().find(".fine").val();
@@ -2480,11 +2480,10 @@ $(document).ready(function () {
             }
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
-
-            var table_row = "<tr class='fees-record'><td>" + other_fee_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
-            $('#table-body').append(table_row);
-            $('.fees-record').each(function () {
-                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            var table_row = "<td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + other_fee_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td>";
+            $("#student-fee-collect-table-body").find("[data-id='" + data_id + "']").parent().parent().html(table_row);
+            $('.fees-row').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
             $('#grand-total').html(grand_total);
         }
@@ -2497,13 +2496,96 @@ $(document).ready(function () {
 
 
         var grand_total = 0;
-        $('.fees-record').each(function () {
+        $('.fees-row').each(function () {
             grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
         });
         $('#grand-total').html(grand_total);
 
 
     })
+
+    $('#collect-selected-fees').on("click", function (e) {
+        e.preventDefault();
+
+        var fee = $("input[name='fee[]']").map(function () { return $(this).val(); }).get();
+        var discount = $("input[name='discount[]']").map(function () { return $(this).val(); }).get();
+        var fine = $("input[name='fine[]']").map(function () { return $(this).val(); }).get();
+        var amount = $("input[name='amount[]']").map(function () { return $(this).val(); }).get();
+        var student_id = $("#student-id").val();
+
+        var btns = $(".btn-remove-fee");
+
+        var month_ids = [];
+        var fee_ids = [];
+
+        btns.each(function () {
+            month_ids.push($(this).attr('month-id'))
+            fee_ids.push($(this).attr('fee-id'))
+        });
+
+        formData = {
+            "fee": fee,
+            "discount": discount,
+            "fine": fine,
+            "amount": amount,
+            "month_ids": month_ids,
+            "fee_ids": fee_ids,
+            "student_id": student_id
+        };
+
+        $.ajax({
+            url: baseUrl + '/fees/store',
+            type: "POST",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data: formData,
+            dataType: "json",
+            success: function (response) {
+
+                if (response.status === false) {
+
+                    if (response.error) {
+
+                        message = `<div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong> Whoops !</strong> Something went wrong please contact to admintrator.
+                                </div>`;
+
+                    } else {
+
+                        message += `<div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        <strong> Error!</strong> `+ response.message + `
+                                    </div>`;
+                    }
+
+                } else {
+
+                    // will remove all the added elemetns
+
+                    message += `<div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong> Success!</strong> `+ response.message + `
+                                </div>`;
+                }
+            },
+            error: function () {
+                message = `<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <strong> Whoops !</strong> Something went wrong please contact to admintrator.
+                            </div>`;
+            },
+            complete: function () {
+
+                if (message !== '') {
+                    $("#collect-selected-fees").after(message);
+                    setTimeout(function () {
+                        $(".alert").remove();
+                    }, 4000);
+                }
+            }
+        });
+
+    });
 
     // Start Delete Data Script
     // $(document).on('click', '#btn-delete-admission', function () {

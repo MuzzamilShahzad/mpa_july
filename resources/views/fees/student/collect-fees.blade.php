@@ -2,9 +2,27 @@
 @section('main-content')
 @section('page_title', 'Fees')
 
+<style>
+    .form-control[readonly] {
+        background-color: white;
+    }
+</style>
+
 <div class="main-content side-content pt-0">
     <div class="main-container container-fluid">
         <div class="inner-body">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h2 class="main-content-title tx-24 mg-b-5">{{ $data['menu'] }}</h2>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:;">{{ $data['page'] }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ $data['menu'] }}</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- End Page Header -->
 
             <!-- Row -->
             <div class="mt-4">
@@ -22,44 +40,44 @@
                                 <div class="col pt-2 pb-2">
                                     <div class="row" style="border-bottom: 2px solid lightgrey;">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Name:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2">Arsalan Ahmed Siddique</p>  </div>
+                                        <div class="col-8 text-start"> <p class="my-2">{{ $data["admission"]->first_name }} {{ $data["admission"]->last_name }} </p>  </div>
                                     </div>
 
                                     <div class="row" style="border-bottom: 2px solid lightgrey;">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Father Name:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2"> Arsalan Ahmed Siddique</p> </div>
+                                        <div class="col-8 text-start"> <p class="my-2"> {{ $data["admission"]->father_details["name"] }} </p> </div>
                                     </div>
 
                                     <div class="row" style="border-bottom: 2px solid lightgrey;">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Mobile Number:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2"> Arsalan Ahmed Siddique</p> </div>
+                                        <div class="col-8 text-start"> <p class="my-2"> {{ $data["admission"]->mobile_no }} </p> </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Category:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2"> Arsalan Ahmed Siddique</p> </div>
+                                        <div class="col-8 text-start"> <p class="my-2"> </p> </div>
                                     </div>
                                 </div>
 
                                 <div class="col pt-2 pb-2">
                                     <div class="row" style="border-bottom: 2px solid lightgrey;">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Class Section:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2"> Arsalan Ahmed Siddique</p> </div>
+                                        <div class="col-8 text-start"> <p class="my-2"> {{ $data["admission"]->section }} </p> </div>
                                     </div>
 
                                     <div class="row" style="border-bottom: 2px solid lightgrey;">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Admission No:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2"> Arsalan Ahmed Siddique</p> </div>
+                                        <div class="col-8 text-start"> <p class="my-2"> </p> </div>
                                     </div>
 
                                     <div class="row" style="border-bottom: 2px solid lightgrey;">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Roll Number:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2"> Arsalan Ahmed Siddique</p> </div>
+                                        <div class="col-8 text-start"> <p class="my-2"> </p> {{ $data["admission"]->roll_no }} </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-4"> <p class="my-2 font-weight-bolder">Profile Discount:</p> </div>
-                                        <div class="col-8 text-start"> <p class="my-2"> Arsalan Ahmed Siddique</p> </div>
+                                        <div class="col-8 text-start"> <p class="my-2"> {{ ($data["admission"]->fee_discount) ? $data["admission"]->fee_discount : "00" 	 }} </p> </div>
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +95,7 @@
                         </div>
                         <div class="col">
                             <div class="p-3 d-flex justify-content-between">
-                                <h3> Student Profile Discount </h3>
+                                <h3> Other Session Balance </h3>
                                 <h3> 0.00 </h3>
                             </div>
                         </div>
@@ -88,7 +106,7 @@
                     <div class="row">
                         <div class="col-11">
                             <div class="m-3 d-flex justify-content-center">
-                                <button class="btn btn-warning me-2"> <i class="fa fa-money"></i> Collect Selected </button>
+                                <button class="btn btn-warning me-2" id="collect-selected-fees"> <i class="fa fa-money"></i> Collect Selected </button>
                                 <button class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#collect-and-print-fee-modal"> <i class="fa fa-money"></i> Collect and Print </button>
                             </div>
                         </div>
@@ -97,6 +115,8 @@
                         </div>
                     </div>
                 </div>
+
+                <input type="hidden" name="student_id" id="student-id" value="{{ $data['admission']->id }}" />
 
                 <div class="card mt-2 mb-2">
                     <div class="row">
@@ -114,26 +134,39 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($data["fee_detalis"] as $fee_detail)
+                                        @if($fee_detail->short_code == 'MF')
+                                        @foreach($data["months"] as $month)
                                         <tr>
-                                            <td class="month"> Aug-22 </td>
-                                            <td> <input type="text" name="fee" class="fee form-control" value="1500"> </td>
-                                            <td> <input type="text" name="disocunt" class="discount form-control"> </td>
+                                            <td class="month"> {{ $month->month }} {{ $data["admission"]->session }} </td>
+                                            <td> <input type="text" name="fee" class="fee form-control" value="{{ $fee_detail->fees_amount }}"> </td>
+                                            @php
+                                            
+                                            $key = '';
+                                            if (false !== $key = array_search($month->id, $data["month_paid_feeses"])) {
+                                                $data["month_paid_feeses"][$key];
+                                            }else {
+                                                $key = '';
+                                            }
+
+                                            @endphp
+                                            <td> <input type="text" name="disocunt" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fee_discount"] : '' }} " class="discount form-control"> </td>
                                             <td> <input type="text" name="fine" class="fine form-control"> </td>
                                             <td> <textarea class="form-control note" name="note" cols="30" rows="1"></textarea> </td>
                                             <td>
-                                                <button class="btn btn-primary btn-sm btn-add-fee" data-id="1"> <i class="fa fa-plus"></i> </button>
+
+                                                @if(in_array($month->id, $data["month_paid_feeses"]))
+                                                <div class="badge bg-success">Paid</div>
+                                                @else
+                                                <button class="btn btn-primary btn-sm btn-add-fee" month-id="{{ $month->id }}" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}"> <i class="fa fa-plus"></i> </button>
+                                                @endif
+                                                
+                                            
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="month"> Sep-22 </td>
-                                            <td> <input type="text" name="fee" class="fee form-control" value="1500"> </td>
-                                            <td> <input type="text" name="disocunt" class="discount form-control"> </td>
-                                            <td> <input type="text" name="fine" class="fine form-control"> </td>
-                                            <td> <textarea class="form-control note" name="note" cols="30" rows="1"></textarea> </td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm btn-add-fee" data-id="2"> <i class="fa fa-plus"></i> </button>
-                                            </td>
-                                        </tr>
+                                        @endforeach
+                                        @endif
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -151,7 +184,7 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table-body">
+                                    <tbody id="student-fee-collect-table-body">
 
                                     </tbody>
                                     <tfoot>
@@ -181,24 +214,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
+                                    @foreach($data["fee_detalis"] as $fee_detail)
+                                        @if($fee_detail->short_code != 'TF')
                                         <tr>
-                                            <td class="other_fee_name"> EXM Fund </td>
-                                            <td> <input type="text" name="fee" class="fee form-control" value="1000"> </td>
+                                            <td class="other_fee_name"> {{ $fee_detail->type }} </td>
+                                            <td> <input type="text" name="fee" class="fee form-control" value="{{ $fee_detail->fees_amount }}"> </td>
                                             <td> <input type="text" name="disocunt" class="discount form-control"> </td>
                                             <td> <input type="text" name="fine" class="fine form-control"> </td>
                                             <td>
-                                                <button class="btn btn-primary btn-sm btn-add-other-fee" data-id="3"> <i class="fa fa-plus"></i> </button>
+                                                <button class="btn btn-primary btn-sm btn-add-other-fee" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}"> <i class="fa fa-plus"></i> </button>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="other_fee_name"> STD Fund </td>
-                                            <td> <input type="text" name="fee" class="fee form-control" value="1200"> </td>
-                                            <td> <input type="text" name="disocunt" class="discount form-control"> </td>
-                                            <td> <input type="text" name="fine" class="fine form-control"> </td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm btn-add-other-fee" data-id="4"> <i class="fa fa-plus"></i> </button>
-                                            </td>
-                                        </tr>
+                                        @endif
+                                    @endforeach
+                                        
                                     </tbody>
                                 </table>
                             </div>

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\feesDetails;
+use App\Models\Feeses;
 
 class Admission extends Model
 {
@@ -12,7 +12,7 @@ class Admission extends Model
 
     public function feeDetails()
     {
-        return $this->hasMany(feesDetails::class, 'campus_id', 'campus_id');
+        return $this->hasMany(Feeses::class, 'campus_id', 'campus_id');
     }
 
     public function classes()
