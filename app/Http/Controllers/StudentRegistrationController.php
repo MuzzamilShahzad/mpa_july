@@ -341,7 +341,10 @@ class StudentRegistrationController extends Controller
                 "salary"         => $request->father_salary,
             ]);
 
-            $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
+            $registration = Registration::where("campus_id", $request->campus_id)
+                                        ->where("session_id", $request->session_id)
+                                        ->where("system_id", $request->system_id)
+                                        ->orderBy('id', 'DESC')->limit(1)->first();
             if ($registration) {
                 $session = explode("-", $registration->session->session);
                 $campus_details = $registration->campus->campusDetails;

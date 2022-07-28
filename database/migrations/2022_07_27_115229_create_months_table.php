@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sessions', function (Blueprint $table) {
-            
+        Schema::create('months', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('session',20)->unique();
-            // $table->string('month',20)->unique();
+            $table->string('month',20)->unique();
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_delete')->default(0);
             $table->timestamps();
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('months');
     }
 };

@@ -164,24 +164,26 @@ class AdmissionController extends Controller
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [
-            'temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:10',  
-            'gr'                        =>  'required|unique:admissions,gr|string|min:1,max:20',
-            'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
-            'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
-            'group_id'                  =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'section_id'                =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'bform_crms_no'             =>  'nullable|numeric|gt:0|digits:11',
-            'first_name'                =>  'required|alpha|max:30',
-            'last_name'                 =>  'required|alpha|max:30',
+            // 'temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:10',  
+            // 'gr'                        =>  'required|unique:admissions,gr|string|min:1,max:20',
+            'gr'                        =>  'required|min:1,max:20',
+            'roll_no'                   =>  'nullable|numeric|gt:0|digits_between:1,10',
+            'session_id'                =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'campus_id'                 =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'system_id'                 =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'class_id'                  =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'group_id'                  =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'section_id'                =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'bform_crms_no'             =>  'nullable|max:20',
+            'first_name'                =>  'required|string|max:30',
+            'last_name'                 =>  'required|string|max:30',
             'dob'                       =>  'nullable|date',
             'gender'                    =>  'required|in:male,female',
-            'place_of_birth'            =>  'required|alpha|max:30',
-            'nationality'               =>  'required|alpha|max:30',
-            'mother_tongue'             =>  'required|alpha|max:30',
-            'previous_class_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'previous_school'           =>  'nullable|max:30',
+            'place_of_birth'            =>  'required|string|max:30',
+            'nationality'               =>  'required|string|max:30',
+            'mother_tongue'             =>  'nullable|string|max:30',
+            'previous_class_id'         =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'previous_school'           =>  'nullable|string|max:30',
             'mobile_no'                 =>  'nullable|max:20',
             'email'                     =>  'nullable|email|max:30',
             'admission_date'            =>  'nullable|date',
@@ -194,10 +196,10 @@ class AdmissionController extends Controller
             'religion_type'             =>  'required|in:sunni,asna_ashri,other',
             'religion_type_other'       =>  'nullable|required_if:religion_type,other|max:20',
             'siblings_in_mpa'           =>  'nullable|in:yes,no',
-            'no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,yes|gt:0|digits_between:1,11',
+            'no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,yes|gt:0|gt:0|digits_between:1,10',
             'student_vaccinated'        =>  'nullable|in:yes,no',
             'father_cnic'               =>  'required|numeric|gt:0|digits:13',
-            'father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'father_salary'             =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
             'father_email'              =>  'nullable|email|max:30',
             'father_name'               =>  'required|max:30',
             'father_phone'              =>  'required|numeric|gt:0|digits:11',
@@ -205,7 +207,7 @@ class AdmissionController extends Controller
             'father_company_name'       =>  'nullable|max:30',
             'father_vaccinated'         =>  'nullable|in:yes,no',
             'mother_cnic'               =>  'required|numeric|gt:0|digits:13',
-            'mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'mother_salary'             =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
             'mother_email'              =>  'nullable|email|max:30',
             'mother_name'               =>  'required|max:30',
             'mother_phone'              =>  'required|numeric|gt:0|digits:11',
@@ -221,18 +223,18 @@ class AdmissionController extends Controller
             'current_house_no'          =>  'required|max:60',
             'current_block_no'          =>  'required|max:60',
             'current_building_name_no'  =>  'nullable|max:60',
-            'current_area_id'           =>  'required|numeric|gt:0|digits_between:1,11',
-            'current_city_id'           =>  'required|numeric|gt:0|digits_between:1,11',
+            'current_area_id'           =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'current_city_id'           =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
             'pick_and_drop'             =>  'required|in:by_walk,by_ride,by_private_van,by_school_van',
             'vehicle_no'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
-            'vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',
+            'vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|gt:0|digits_between:1,10',
         ]);
 
-        if ($validator->errors()->all()) {
+        if ($validator->fails()) {
 
             $response = array(
-                'status'  =>  false, 
-                'error'   =>  $validator->errors()->toArray()
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
             );
             
             return response()->json($response);
@@ -243,14 +245,44 @@ class AdmissionController extends Controller
             try {
                 
                 $formData =  $request->all();
-
                 $student  = new Admission();
-               
+
                 if(isset($request->temporary_gr) && !empty($request->temporary_gr)) {
-                    $student->registration_id  = Registration::where('registration_id', $request->temporary_gr)->first()->id;
+                    
+                    $student->temporary_gr         =  $request->temporary_gr;
+                    
+                    $registration = Registration::where('registration_id', $request->temporary_gr)->first()->id;
+                    
+                    if($registration){
+                        $student->registration_id = $registration->id;
+                    } else {
+                        $student->registration_id = NULL;
+                    }
+
+                } else {
+                    $registration = Admission::where("campus_id", $request->campus_id)
+                                        ->where("session_id", $request->session_id)
+                                        ->where("system_id", $request->system_id)
+                                        ->orderBy('id', 'DESC')->limit(1)->first();
+                    
+                    if ($registration) {
+                        $session = explode("-", $registration->session->session);
+                        
+                        $campus_details = $registration->campus->campusDetails;
+                        $reg_no = filter_var($registration->temporary_gr, FILTER_SANITIZE_NUMBER_INT);
+                        $reg_no =  substr($reg_no, 2);
+                        (++$reg_no);
+                        $temporary_gr = $campus_details->short_name . substr($session[0], -2) . ($reg_no);
+
+                    } else {
+                        $campus_details = Campus::findOrFail($request->campus_id)->campusDetails;
+                        $session = Session::findOrFail($request->session_id);
+                        $session = explode("-", $session->session);
+                        $temporary_gr = $campus_details->short_name . substr($session[0], -2) . 1;
+                    }
+                    $student->temporary_gr         =  $temporary_gr;
                 }
 
-                $student->temporary_gr         =  $request->temporary_gr;
                 $student->gr                   =  $request->gr;
                 $student->roll_no              =  $request->roll_no;
                 $student->session_id           =  $request->session_id;
@@ -288,7 +320,7 @@ class AdmissionController extends Controller
                 
                 if($student->pick_and_drop == "by_ride"){
                     $student->vehicle_no       =  $request->vehicle_no;
-                }else if($student->pick_and_drop == "by_school_van" || $student->pick_and_drop == "by_private_van") {
+                } else if($student->pick_and_drop == "by_school_van" || $student->pick_and_drop == "by_private_van") {
                     $student->vehicle_id       =  $request->vehicle_id;
                 }
 
@@ -382,14 +414,20 @@ class AdmissionController extends Controller
 
                 ));
 
-                // dd($student);
-                
+                // echo "<pre>";
+                // print_r($student);
+                // echo "</pre>";
+                // echo "</br>";
+
                 if($student->save()){
                     
                     $response = array(
                         'status'   =>  true, 
-                        'message'  =>  "Record has been inserted."
+                        'message'  =>  "Record has been inserted with temporary gr : $student->temporary_gr."
                     );
+
+                    
+                    dd($response);
 
                 } else {
                     $response = array(
@@ -417,21 +455,21 @@ class AdmissionController extends Controller
         $validator = Validator::make($request->all(), [
             'temporary_gr'              =>  'required|string|min:1,max:10|unique:admissions,temporary_gr,'.$request->id,  
             'gr'                        =>  'required|string|min:1,max:20|unique:admissions,gr,'.$request->id,
-            'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
-            'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
-            'group_id'                  =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'section_id'                =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'session_id'                =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'campus_id'                 =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'system_id'                 =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'class_id'                  =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'group_id'                  =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'section_id'                =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
             'bform_crms_no'             =>  'nullable|string|max:20',
-            'first_name'                =>  'required|alpha|max:30',
-            'last_name'                 =>  'required|alpha|max:30',
+            'first_name'                =>  'required|string|max:30',
+            'last_name'                 =>  'required|string|max:30',
             'dob'                       =>  'nullable|date',
             'gender'                    =>  'required|in:male,female',
-            'place_of_birth'            =>  'required|alpha|max:30',
-            'nationality'               =>  'required|alpha|max:30',
-            'mother_tongue'             =>  'required|alpha|max:30',
-            'previous_class_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'place_of_birth'            =>  'required|string|max:30',
+            'nationality'               =>  'required|string|max:30',
+            'mother_tongue'             =>  'nullable|string|max:30',
+            'previous_class_id'         =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
             'previous_school'           =>  'nullable|max:30',
             'mobile_no'                 =>  'nullable|max:20',
             'email'                     =>  'nullable|email|max:30',
@@ -445,10 +483,10 @@ class AdmissionController extends Controller
             'religion_type'             =>  'required|in:sunni,asna_ashri,other',
             'religion_type_other'       =>  'nullable|required_if:religion_type,other|max:20',
             'siblings_in_mpa'           =>  'nullable|in:yes,no',
-            'no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,yes|gt:0|digits_between:1,11',
+            'no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,yes|gt:0|gt:0|digits_between:1,10',
             'student_vaccinated'        =>  'nullable|in:yes,no',
             'father_cnic'               =>  'required|numeric|gt:0|digits:13',
-            'father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'father_salary'             =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
             'father_email'              =>  'nullable|email|max:30',
             'father_name'               =>  'required|max:30',
             'father_phone'              =>  'required|numeric|gt:0|digits:11',
@@ -456,7 +494,7 @@ class AdmissionController extends Controller
             'father_company_name'       =>  'nullable|max:30',
             'father_vaccinated'         =>  'nullable|in:yes,no',
             'mother_cnic'               =>  'required|numeric|gt:0|digits:13',
-            'mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'mother_salary'             =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
             'mother_email'              =>  'nullable|email|max:30',
             'mother_name'               =>  'required|max:30',
             'mother_phone'              =>  'required|numeric|gt:0|digits:11',
@@ -472,11 +510,11 @@ class AdmissionController extends Controller
             'current_house_no'          =>  'required|max:60',
             'current_block_no'          =>  'required|max:60',
             'current_building_name_no'  =>  'nullable|max:60',
-            'current_area_id'           =>  'required|numeric|gt:0|digits_between:1,11',
-            'current_city_id'          =>  'required|numeric|gt:0|digits_between:1,11',
+            'current_area_id'           =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'current_city_id'          =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
             'pick_and_drop'             =>  'required|in:by_walk,by_ride,by_private_van,by_school_van',
             'vehicle_no'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
-            'vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',
+            'vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|gt:0|digits_between:1,10',
         ]);
 
         if ($validator->fails()) {
@@ -703,12 +741,12 @@ class AdmissionController extends Controller
 
     public function studentPromotion(Request $request){
         $validator = Validator::make($request->all(), [
-            'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
-            'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
-            'section_id'                =>  'required|numeric|gt:0|digits_between:1,11',
-            // 'group_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
+            'campus_id'                 =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'system_id'                 =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'class_id'                  =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'session_id'                =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            'section_id'                =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
+            // 'group_id'                  =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
             'registeration_ids'         =>  'required|array'
         ]);
 
@@ -767,7 +805,7 @@ class AdmissionController extends Controller
         );
         
         $validator = Validator::make($request,[
-            'id'  =>  'required|numeric|gt:0|digits_between:1,11',
+            'id'  =>  'required|numeric|gt:0|gt:0|digits_between:1,10',
         ]);
 
         if($validator->fails()){
@@ -905,12 +943,12 @@ class AdmissionController extends Controller
     public function importStore(Request $request){
 
         $validator = Validator::make($request->all(),[
-            'session_id'        =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'section_id'        =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'campus_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'system_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'class_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'group_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'session_id'        =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'section_id'        =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'campus_id'         =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'system_id'         =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'class_id'          =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
+            'group_id'          =>  'nullable|numeric|gt:0|gt:0|digits_between:1,10',
             'import_file'       =>  'required|mimes:xlsx,xls,csv'
         ]);
        
