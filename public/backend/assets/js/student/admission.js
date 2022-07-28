@@ -101,11 +101,11 @@ $(document).ready(function () {
         // var private_driver_phone        =  $("#private-driver-phone").val();
         // var private_vehicle_no          =  $("#private-vehicle-no").val();
 
-        if (temporary_gr == "") {
-            $("#temporary-gr").addClass("has-error");
-            $("#temporary-gr").after("<span class='error'>This field is required.</span>");
-            flag = false;
-        }
+        // if (temporary_gr == "") {
+        //     $("#temporary-gr").addClass("has-error");
+        //     $("#temporary-gr").after("<span class='error'>This field is required.</span>");
+        //     flag = false;
+        // }
         if (gr == "") {
             $("#gr").addClass("has-error");
             $("#gr").after("<span class='error'>This field is required.</span>");
@@ -178,11 +178,11 @@ $(document).ready(function () {
             $("#nationality").after("<span class='error'>This field is required.</span>");
             flag = false;
         }
-        if (mother_tongue == "") {
-            $("#mother-tongue").addClass("has-error");
-            $("#mother-tongue").after("<span class='error'>This field is required.</span>");
-            flag = false;
-        }
+        // if (mother_tongue == "") {
+        //     $("#mother-tongue").addClass("has-error");
+        //     $("#mother-tongue").after("<span class='error'>This field is required.</span>");
+        //     flag = false;
+        // }
 
         if (previous_class_id !== "" && previous_class_id !== "0") {
 

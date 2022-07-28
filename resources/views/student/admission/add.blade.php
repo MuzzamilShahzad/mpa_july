@@ -27,25 +27,25 @@
                         <form action="{{ route('admission.store') }}" method="post">
                             <div class="card-body" id="after-form-store-msg">
                                 <div class="form-row">
-                                    <div class="form-group col-md-3 mb-0">
+                                    <!-- <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Temporary G.R</label>
                                             <input type="text" class="form-control bg-transparent" name="temporary_gr" id="temporary-gr">
                                         </div>
-                                    </div>
-                                    <div class="form-group col-md-3 mb-0">
+                                    </div> -->
+                                    <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">G.R</label>
                                             <input type="text" class="form-control" name="gr" id="gr">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-3 mb-0">
+                                    <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Roll Number</label>
-                                            <input type="text" class="form-control" name="roll_no" id="roll-no">
+                                            <input type="number" class="form-control" name="roll_no" id="roll-no">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-3 mb-0">
+                                    <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Session</label>
                                             <div class="pos-relative">

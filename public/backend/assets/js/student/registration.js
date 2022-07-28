@@ -67,7 +67,8 @@ $(document).ready(function () {
             $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
-        if (class_group_id == "" || class_group_id == "0") {
+        // if (class_group_id == "" || class_group_id == "0") {
+        if ($("#class-group-id").prop('disabled') == false) {    
             $("#class-group-id").find(".select2-selection--single").addClass("has-error");
             $("#class-group-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
@@ -1018,7 +1019,8 @@ $(document).ready(function () {
             $("#campus-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
-        if (class_group_id == "" || class_group_id == "0") {
+        // if (class_group_id == "" || class_group_id == "0") {
+        if ($("#class-group-id").prop('disabled') == false) {    
             $("#class-group-id:not([disabled]").find(".select2-selection--single").addClass("has-error");
             $("#class-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
