@@ -1089,7 +1089,7 @@ $(document).ready(function () {
 
     });
 
-    
+
     // Start data update script
     $("#btn-update-admission").on("click", function (e) {
         e.preventDefault();
@@ -2327,6 +2327,183 @@ $(document).ready(function () {
 
         }
     });
+
+
+    $('.btn-add-fee').on("click", function (e) {
+        e.preventDefault();
+
+        var data_id = $(this).attr("data-id");
+        var month_name = "";
+        var amount = 0;
+        var fee = 0;
+        var grand_total = 0;
+        var discount = 0;
+        var fine = 0;
+        var result = $("#table-body").find("[data-id='" + data_id + "']").length;
+
+        if (result == 0) {
+
+            month_name = $(this).parent().parent().find(".month").html();
+            discount = $(this).parent().parent().find(".discount").val();
+            fee = $(this).parent().parent().find(".fee").val();
+            fine = $(this).parent().parent().find(".fine").val();
+
+            if (!fine) {
+                fine = 0;
+            }
+
+            if (!discount) {
+                discount = 0;
+            }
+
+            if (!amount) {
+                amount = 0;
+            }
+
+            if (!fee) {
+                fee = 0;
+            }
+
+            amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
+
+
+            var table_row = "<tr class='fees-record'><td>" + month_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
+            $('#table-body').append(table_row);
+            $('.fees-record').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            });
+            $('#grand-total').html(grand_total);
+
+        } else {
+            $("#table-body").find("[data-id='" + data_id + "']").parent().parent().remove();
+            month_name = $(this).parent().parent().find(".month").html();
+            discount = $(this).parent().parent().find(".discount").val();
+            fine = $(this).parent().parent().find(".fine").val();
+            fee = $(this).parent().parent().find(".fee").val();
+
+
+            if (!fine) {
+                fine = 0;
+            }
+
+            if (!discount) {
+                discount = 0;
+            }
+
+            if (!amount) {
+                amount = 0;
+            }
+
+            if (!fee) {
+                fee = 0;
+            }
+            amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
+
+
+            var table_row = "<tr class='fees-record'><td>" + month_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
+            $('#table-body').append(table_row);
+            $('.fees-record').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            });
+            $('#grand-total').html(grand_total);
+        }
+
+    });
+
+    $('.btn-add-other-fee').on("click", function (e) {
+        e.preventDefault();
+
+        var data_id = $(this).attr("data-id");
+        var other_fee_name = "";
+        var amount = 0;
+        var fee = 0;
+        var grand_total = 0;
+        var discount = 0;
+        var fine = 0;
+        var result = $("#table-body").find("[data-id='" + data_id + "']").length;
+
+        if (result == 0) {
+
+            other_fee_name = $(this).parent().parent().find(".other_fee_name").html();
+            discount = $(this).parent().parent().find(".discount").val();
+            fee = $(this).parent().parent().find(".fee").val();
+            fine = $(this).parent().parent().find(".fine").val();
+
+            if (!fine) {
+                fine = 0;
+            }
+
+            if (!discount) {
+                discount = 0;
+            }
+
+            if (!amount) {
+                amount = 0;
+            }
+
+            if (!fee) {
+                fee = 0;
+            }
+
+            amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
+
+
+            var table_row = "<tr class='fees-record'><td>" + other_fee_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
+            $('#table-body').append(table_row);
+            $('.fees-record').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            });
+            $('#grand-total').html(grand_total);
+
+        } else {
+            $("#table-body").find("[data-id='" + data_id + "']").parent().parent().remove();
+            other_fee_name = $(this).parent().parent().find(".other_fee_name").html();
+            discount = $(this).parent().parent().find(".discount").val();
+            fine = $(this).parent().parent().find(".fine").val();
+            fee = $(this).parent().parent().find(".fee").val();
+
+
+            if (!fine) {
+                fine = 0;
+            }
+
+            if (!discount) {
+                discount = 0;
+            }
+
+            if (!amount) {
+                amount = 0;
+            }
+
+            if (!fee) {
+                fee = 0;
+            }
+            amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
+
+
+            var table_row = "<tr class='fees-record'><td>" + other_fee_name + "</td><td id='fee'>" + fee + "</td><td id='discount'>" + discount + "</td><td id='fine'>" + fine + "</td><td id='amount'>" + amount + "</td><td><button class='btn btn-danger btn-sm btn-remove-fee' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr> ";
+            $('#table-body').append(table_row);
+            $('.fees-record').each(function () {
+                grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            });
+            $('#grand-total').html(grand_total);
+        }
+
+    });
+
+    $(document).on('click', '.btn-remove-fee', function (e) {
+        e.preventDefault();
+        $(this).parent().parent().remove();
+
+
+        var grand_total = 0;
+        $('.fees-record').each(function () {
+            grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+        });
+        $('#grand-total').html(grand_total);
+
+
+    })
 
     // Start Delete Data Script
     // $(document).on('click', '#btn-delete-admission', function () {

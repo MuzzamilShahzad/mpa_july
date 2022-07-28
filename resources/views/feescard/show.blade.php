@@ -8,7 +8,7 @@
 
 @foreach($data['Admissions'] as $admission)
     <div class="mt-4" style="width: 4in; height: 2in; border:1px solid black;">
-        <div class="d-flex justify-content-center mt-2 mb-1">
+        <div class="d-flex justify-content-center mt-1 mb-1">
             <div style="width: 24%;">
                 <img src="{{ asset('backend/assets/img/logo.png') }}" style="width: 85%;" class="img-responsive" alt="logo">
             </div>
@@ -33,14 +33,13 @@
                 GR#: <span class="px-2" style="background-color:black;color:white;"> {{ $admission->temporary_gr }} </span>
             </p>
         </div>
-        
 
         <div class="px-2">
             <p style="margin:0 auto;font-size:12px;font-weight: bold" class="mb-1">Student Name:  <u> {{ $admission->first_name }} {{ $admission->last_name }} </u></p>
             <p style="margin:0 auto;font-size:12px;font-weight: bold" class="mb-1">Father Name:  <u> {{ $admission->father_details["name"] }} </u></p>
             <p style="margin:0 auto;font-size:12px;font-weight: bold" class="mb-1">Address:  <u> {{ $admission->address_details["current_address"]["current_house_no"] }} </u></p>
         </div>
-        
+
         <div class="d-flex justify-content-between px-2">
             <p class="my-1" style="font-size:14px;font-weight: bold"> ST-FUND: <span class="px-2" style="color:white;background-color: black;"> {{ $admission->fees_types["SF"] }} </span> </p>
             <p class="my-1" style="font-size:14px;font-weight: bold"> EXAM: <span class="px-2" style="color:white;background-color: black;"> {{ $admission->fees_types["EF"] }} </span> </p>
