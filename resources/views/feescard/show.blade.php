@@ -29,7 +29,7 @@
             <p style="font-size:12px;font-weight: bold;margin-bottom:0px;">
                 Section: <u> &nbsp;&nbsp; {{ $admission->section }} &nbsp;&nbsp; </u>
             </p>
-            <p style="font-size:16px;margin-bottom:0px;font-weight: bold;">
+            <p style="font-size:14px;margin-bottom:0px;font-weight: bold;">
                 GR#: <span class="px-2" style="background-color:black;color:white;"> {{ $admission->temporary_gr }} </span>
             </p>
         </div>

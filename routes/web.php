@@ -173,6 +173,7 @@ Route::controller(FeeController::class)->group(function () {
 
 Route::view('/fees-modal', 'fees/student/collect-fees-modal');
 Route::view('/admission-letter', 'admission-letter');
+Route::view('/admission-letter-matric', 'admission-letter-matric');
 Route::view('/acknowledgenment', 'acknowledgenment');
 
 Route::any('/dashboard', function() {

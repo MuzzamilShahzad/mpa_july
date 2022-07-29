@@ -277,10 +277,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-2">
-        <div class="border p-4">
+        <div class="border p-4" id="print-student-fees-voucher">
             <div class="d-flex justify-content-between">
                 <p>Date: {{ date("d-m-Y") }}</p>
-                <p>Receipt No.:  00028</p>
+                <p id="receipt_no"></p>
             </div>
             <div class="text-center">
                 <h1>METROPOLITAN ACADEMY</h1>
@@ -300,24 +300,13 @@
                             <td>Amount</td>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>2/40128</td>
-                            <td>Aug-21</td>
-                            <td>Tution Fee</td>
-                            <td>Rs. 3200/=</td>
-                        </tr>
-                        <tr>
-                            <td>Fine</td>
-                            <td></td>
-                            <td>Total Fee</td>
-                            <td>Rs. 400/=</td>
-                        </tr>
+                    <tbody id="print-fees-record-table-body">
+                        
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="3"><strong>Total</strong></td>
-                            <td id="print-grand-total">Rs. 3600/=</td>
+                            <td id="print-grand-total">Rs. 00/=</td>
                         </tr>
                     </tfoot>
                 </table>

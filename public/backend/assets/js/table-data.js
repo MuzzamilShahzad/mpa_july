@@ -9,7 +9,6 @@ $(function (e) {
 		}
 	});
 
-
 	//______Responsive Data Table
 	$('#responsive-datatable').DataTable({
 		responsive: true,

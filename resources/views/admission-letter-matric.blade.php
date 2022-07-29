@@ -38,8 +38,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 p-0 text-center">
-                        <p class="bg-primary text-light font-weight-bold pt-1 pb-1"> Head Office / Campus 1 : B-33 Block 13, F.B. Area, Karachi, Pakistan. Ph: (0092) 21 36363629</p>
-                        <h5 style="margin-top: -15px;" class="font-weight-bold">ADMISSION LETTER (2022-2023) FOR 0-LEVEL CAMPUS</h5>
+                    <p class="bg-primary text-light font-weight-bold pt-1 pb-1"> Head Office / Campus 1 : B-33 Block 13, F.B. Area, Karachi, Pakistan. Ph: (0092) 21 36363629</p>
+                        <h5 style="margin-top: -15px;" class="font-weight-bold text-upper">ADMISSION LETTER For MATRICULATION System (2022-2023) </h5>
                     </div>
                 </div>
             </div>
@@ -57,19 +57,19 @@
             <div class="col-md-12">
 
                 <p>
-                    <b>Dear Parents/Guardians,</b> <br>
-                    Congratulations! Your Master/ Miss <span class="border-bottom border-dark"> FABEEHA SALEEM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span> .
+                   <b> Dear Parents/Guardians,</b> <br>
+                    Congratulations! Your Master/ Miss<span class="border-bottom border-dark"> FABEEHA SALEEM&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span> .
                     has been through the assessment, successfully for the grade <span class="border-bottom border-dark"> &nbsp; Nursery &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>. <br>
                     Following are the steps to be taken for further proceeding the admission process.
                 </p>
                 <ol>
 
-                    <li>Kindly receive an admission form from the school reception and submit it according to the prescribed submission procedure and date.</li>
+                    <li>Kindly receive an admission form from the school reception and submit it according to the prescribed submission date.</li>
                     <li>Copy set & worksheet will be available from 25<sup>th</sup> July 2022 from Naseerabad Campus.</li>
                     <li>Kindly write the name and grade of your child on the books, copies, water flask, lunch box and winter jackets to avoid any loss.</li>
                     <li>Fee card will be issued in the month of <b>August</b>. It is a must to follow the fee schedule and rules given on the fee card.</li>
                     <li>Student should bring light refreshment along with water flask with them.</li>
-                    <li>School Uniform is available at <b>"Ghani's Uniforms (Hyderi Branch), Samar Garden, FL-8, Hyderi" </b>.</li>
+                    <li>School Uniform is available at <b>"Ghani's Uniforms (Hyderi Branch), Samar Garden, FL-8, Hyderi" </b> and <b>“Uniform House” Shop #19,Rose Merry Apartment,Block-10 FB Area Karachi</b>.</li>
 
                 </ol>
 
@@ -79,22 +79,21 @@
         <div class="row">
             <div class="col-md-12" style="border: 3px solid black">
                 <p class="font-weight-bold mt-1">
-                    Note: The classes of new admission students (Play group – Grade IX) shall start
-                    from 1
-                    st August 2022. Timings only for this day will be from 9:00 am to 11:00
-                    am. Transport service will be available from 15th August 2022 for students of
-                    Play Group and Montessori-Junior.
-
+                    Note:
+                    <ul>
+                        <li class="font-weight-bold">The classes of new admission students (Nursery – IX) shall start from 1<sup>st</sup> August 2022.Timings only for this day will be from 9:00 am to 11:00 am. </li>
+                        <li class="font-weight-bold">Regular timing will be followed from 2<sup>nd</sup> August 2022.See regular timing in rule book.</li>
+                    </ul>
                 </p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <p class="font-weight-bold">Following school timings will be observed.</p>
+                <p class="font-weight-bold">Following are the regular school timings:</p>
                 <table class="table border-dark table-sm table-bordered text-center">
                     <thead>
                         <tr>
-                            <th colspan="2">Play Group / Montessori Junior</th>
+                            <th colspan="2">Nursery / K.G I</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -115,12 +114,12 @@
                             <td>From 8th August – 12th August </td>
                         </tr>
                         <tr>
-                            <td>08:00 am</td>
+                            <td>07:45 am</td>
                             <td>12:30 pm</td>
                             <td>From 15th August and onwards</td>
                         </tr>
                         <tr class="font-weight-bold">
-                            <td colspan="2">Montessori Senior - Grade X</td>
+                            <td colspan="2">KG. II - IX</td>
                             <td>See Rule Book</td>
                         </tr>
                     </tbody>
@@ -167,7 +166,6 @@
 </body>
 <script>
     window.print();
-
 </script>
 
 </html>
