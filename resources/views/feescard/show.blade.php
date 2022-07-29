@@ -18,7 +18,7 @@
                 <p style="font-size: 12px; margin-top:0px; margin-bottom:0px;color: white;background-color:black;"> Fee Card {{ $admission->session }} </p>
             </div>
             <div style="width:20%;margin-left:16px;" class="text-center my-2">
-                <h4 class="p-2" style="background-color: black;color:white;"> {{ $admission->fees_types["TF"] }} </h4>
+                <h4 class="p-2" style="background-color: black;color:white;"> {{ $admission->fees_types["MF"] }} </h4>
             </div>
         </div>
 
