@@ -116,7 +116,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold date-picker">Date of Birth</label>
-                                            <input class="form-control date-picker bg-transparent" name="dob" id="dob" placeholder="DD-MM-YYYY" type="text" readonly>
+                                            <input class="form-control date-picker bg-transparent" name="dob" id="dob" placeholder="DD-MM-YYYY" type="text">
                                         </div>
                                     </div>
                                 </div>
@@ -139,8 +139,8 @@
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="siblings_in_mpa" id="siblings-in-mpa">
                                                     <option value="">Select If Any</option>
-                                                    <option value="Yes">Yes</option>
-                                                    <option value="No">No</option>
+                                                    <option value="yes">Yes</option>
+                                                    <option value="no">No</option>
                                                 </select>
                                             </div>
                                         </div>

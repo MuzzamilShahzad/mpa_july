@@ -28,8 +28,8 @@
 
         <div class="font-weight-bold px-2">
             <p style="margin:0 auto;font-size:14px;">Student Name:  <u> {{ $admission->first_name }} {{ $admission->last_name }} </u></p>
-            <p style="margin:0 auto;font-size:14px;">Father Name:  <u> {{ $admission->father_details["name"] }} </u></p>
-            <p style="margin:0 auto;font-size:14px;">Address:  <u> {{ $admission->address_details["current_address"]["current_house_no"] }} </u></p>
+            <p style="margin:0 auto;font-size:14px;">Father Name:   <u> {{ $admission->father_details["name"] }} </u></p>
+            <p style="margin:0 auto;font-size:14px;">Address:       <u> {{ $admission->address_details["current_address"]["current_house_no"] }} </u></p>
         </div>
         
         <div class="d-flex justify-content-between px-2">

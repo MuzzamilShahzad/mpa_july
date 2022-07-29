@@ -26,12 +26,12 @@ return new class extends Migration
             $table->unsignedInteger('session_id');
             $table->foreign('session_id')->references('id')->on('sessions')->onDelete('cascade');
            
-            $table->unsignedInteger('fees_type_id')->nullable();
+            $table->unsignedInteger('fees_type_id');
             $table->foreign('fees_type_id')->references('id')->on('fees_types')->onDelete('cascade');
             
             $table->unique(['campus_id','class_id','session_id','fees_type_id']);
 
-            $table->integer('fees_amount');
+            $table->integer('fees_amount')->nullable();
             $table->date('due_date');
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_delete')->default(0);

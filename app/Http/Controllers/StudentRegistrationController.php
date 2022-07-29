@@ -290,7 +290,7 @@ class StudentRegistrationController extends Controller
             'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
-            'class_group_id'            =>  'numeric|gt:0|digits_between:1,11',
+            'class_group_id'            =>  'nullable|numeric|gt:0|digits_between:1,11',
             'form_no'                   =>  'nullable|alpha_dash|max:20',
             'first_name'                =>  'required|alpha|max:30',
             'last_name'                 =>  'required|alpha|max:30',
@@ -299,11 +299,11 @@ class StudentRegistrationController extends Controller
             'siblings_in_mpa'           =>  'string|max:3',
             'no_of_siblings'            =>  'nullable|numeric|gt:0|digits_between:1,11',
             'previous_class_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'previous_school'           =>  'max:60',
+            'previous_school'           =>  'nullable|max:60',
             // CURRENT ADDRESS
             'house_no'                  =>  'required|string|max:60',
             'block_no'                  =>  'required|string|max:60',
-            'building_no'               =>  'required|string|max:60',
+            'building_no'               =>  'nullable|string|max:60',
             'area_id'                   =>  'required|numeric|gt:0|digits_between:1,11',
             'city_id'                   =>  'required|numeric|gt:0|digits_between:1,11',
             // FATHERS DETAIL
@@ -311,21 +311,31 @@ class StudentRegistrationController extends Controller
             'father_name'               =>  'required|max:30',
             'father_cnic'               =>  'required|numeric|gt:0|digits:13',
             'father_email'              =>  'nullable|email|max:60',
-            'father_occupation'         =>  'string|max:30',
-            'father_company_name'       =>  'max:30',
+            'father_occupation'         =>  'nullable|string|max:30',
+            'father_company_name'       =>  'nullable|max:30',
             'father_phone'              =>  'required|numeric|gt:0|digits:11',
             'hear_about_us'             =>  'nullable|string|max:20',
             'hear_about_us_other'       =>  'required_if:hear_about_us,other|string|max:20',
             // TEST-INTERVIEW GROUP
-            'test_group_id'             =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'interview_group_id'        =>  'nullable|numeric|gt:0|digits_between:1,11'
+            
+            'test_group_id'             =>  'nullable|required_if:test_group_chkbox,true|sometimes|required_if:test_group_id,null|numeric|gt:0|digits_between:1,11|exists:test_interview_groups,id',
+            'interview_group_id'        =>  'nullable|required_if:interview_group_chkbox,true|sometimes|required_if:interview_group_id,null|numeric|gt:0|digits_between:1,11|exists:test_interview_groups,id',
+            
+            "test_name"                 =>  'nullable|required_if:test_group_chkbox,true|sometimes|required_without:test_group_id|max:30',
+            "test_date"                 =>  'nullable|required_if:test_group_chkbox,true|sometimes|required_without:test_group_id|date',
+            "test_time"                 =>  'nullable|required_if:test_group_chkbox,true|sometimes|required_without:test_group_id|date_format:H:i',
+
+            "interview_name"            =>  'nullable|required_if:interview_group_chkbox,true|sometimes|required_without:interview_group_id|max:30',
+            "interview_date"            =>  'nullable|required_if:interview_group_chkbox,true|sometimes|required_without:interview_group_id|date',
+            "interview_time"            =>  'nullable|required_if:interview_group_chkbox,true|sometimes|required_without:interview_group_id|date_format:H:i',
+            
         ]);
 
-        if ($validator->errors()->all()) {
+        if ($validator->fails()) {
 
             $response = array(
                 'status'  =>  false,
-                'error'   =>  $validator->errors()->toArray()
+                'error'   =>  $validator->errors(),
             );
 
             return response()->json($response);
@@ -425,6 +435,8 @@ class StudentRegistrationController extends Controller
             }
 
             $query = $registration->save();
+
+            dd("Student has been registered successfully with registeration id $registration->registration_id.");
 
             if ($query) {
 
