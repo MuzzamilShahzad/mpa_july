@@ -5,14 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FeesDetails extends Model
+class StudentFees extends Model
 {
     use HasFactory;
+    protected $table = "student_feeses";
 
-
-    public function feeTypes()
-    {
-
-        return $this->hasMany(FeesTypes::class, "id", "fees_type_id");
-    }
 }

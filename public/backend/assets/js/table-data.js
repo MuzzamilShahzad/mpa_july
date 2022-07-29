@@ -286,12 +286,13 @@ $(function (e) {
 			$('#promote').remove();
 			$('#student-slip').remove();
 		} else {
-			var promote_btn = $('#promote').length; e.preventDefault();
+			var promote_btn = $('#promote').length;
+			// e.preventDefault();
 
 			var student_slip = $('#student-slip').length;
 
 			if (promote_btn == 0 && student_slip == 0) {
-				$('.table-heading').after("&nbsp;&nbsp;<button class='btn btn-sm btn-primary' id='student-slip'> Student Slip </button>");
+				$('.table-heading').after("&nbsp;&nbsp;<button data-bs-target='#print-sticker-modal' data-bs-toggle='modal' class='btn btn-sm btn-primary' id='student-slip'> Student Slip </button>");
 				$('.table-heading').after("&nbsp;&nbsp;<button data-bs-target='#promote-student-modal' data-bs-toggle='modal' class='btn btn-sm btn-primary' id='promote'> Promote </button>");
 			}
 		}
@@ -339,7 +340,7 @@ $(function (e) {
 
 				} else {
 
-					$('#print-sticker-modal-body').html(response.message)
+					$('#print-sticker').html(response.message)
 
 				}
 			},
@@ -362,14 +363,17 @@ $(function (e) {
 
 	});
 
-	$(document).on('click', '#btn-print-sticker-modal-body', function (e) {
+	$(document).on('click', '#btn-print-sticker', function (e) {
 		e.preventDefault();
-		var divToPrint = document.getElementById('print-sticker-modal-body');
+		var btn_print_sticker = document.getElementById('print-sticker');
 		var newWin = window.open('', 'Print-Window');
 		newWin.document.open();
-		newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
-		// newWin.print();
+		newWin.document.write('<html><body onload="window.print()">' + btn_print_sticker.innerHTML + '</body></html>');
 		// newWin.document.close();
+		newWin.focus();
+		newWin.print();
+		newWin.document.close();
+		// return true;
 		// setTimeout(function () { newWin.close(); }, 10);
 	});
 
@@ -730,8 +734,8 @@ $(function (e) {
 				{
 					"targets": 10,
 					"render": function (data) {
-						var checkbox = `<a>
-											<i class="fas fa-dollar" id="btn-collect-fees="`+ data.id + `" title="Edit"></i> 
+						var checkbox = `<a href=` + (baseUrl + '/fees/collect-fee?student_id=' + data.id) + `>
+											<i class="fas fa-dollar" id="btn-collect-fees="`+ data.id + `" title="Fees"></i> 
 										</a>|
 										<a href="` + (baseUrl + '/admission/export-excel?admission_id=' + data.id) + `">
 											<i class="fas fa-file-excel" id="btn-excel-download-admission="`+ data.id + `" title="Edit"></i> 

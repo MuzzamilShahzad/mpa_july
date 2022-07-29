@@ -13,6 +13,9 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Classes;
 use App\Models\FeesTypes;
+use App\Models\Month;
+use App\Models\Fees;
+use App\Models\StudentFees;
 
 class FeeController extends Controller
 {
@@ -52,8 +55,6 @@ class FeeController extends Controller
                 $admission->fees_details = $admission->feeDetails->toArray();
                 $fee_details_id = $admission->feeDetails->pluck('fees_type_id');
                 $feeTypes = FeesTypes::WhereIn('id',$fee_details_id)->get(['short_code', 'type'])->toArray();
-
-
 
                 $all_fees_types = [];
                 $i = 0;
@@ -155,14 +156,98 @@ class FeeController extends Controller
         return view('fees.student.listing', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function getStudentFeesRecord(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'student_id'            => 'required|numeric|gt:0|digits_between:1,11',
+        ]);
+
+        if ($validator->fails()) {
+            
+            return redirect()->back()->with("message", "Record not found.");
+
+        } else {
+
+            $admission = Admission::findOrFail($request->student_id);
+            
+            $admission->father_details = json_decode($admission->father_details, true);
+            $admission->address_details = json_decode($admission->address_details, true);
+
+            $where = array(
+                'campus_id'  => $admission->campus_id,
+                'class_id'   => $admission->class_id,
+                'session_id' => $admission->session_id
+            );
+
+            $fees = Fees::select("feeses.*", "fees_types.*")
+                            ->join('fees_types','fees_types.id','=','feeses.fees_type_id')->where($where)->get();
+
+
+            $where = array(
+                'student_id'    => $admission->id,
+                // 'campus_id'     => $admission->campus_id,
+                // 'class_id'      => $admission->class_id,
+                // 'session_id'    => $admission->session_id
+            );
+
+            $paid_feeses = StudentFees::where($where)->get()->toArray();
+            
+
+
+            if($paid_feeses) {
+                $month_paid_feeses = array_column($paid_feeses, 'month_id');    
+            }else {
+                $month_paid_feeses = [];
+            }
+
+
+            // if (false !== $key = array_search(2, $month_paid_feeses)) {
+            //     dd($key);
+            // } else {
+            //     dd("not found");
+            // }
+            // dd($paid_feeses);
+
+
+            // $student_fees = Admission::select('admissions.*', 'feeses.*')
+            //                         ->join('feeses','feeses.campus_id','=','admissions.campus_id','feeses.class_id','=','admissions.class_id','feeses.session_id','=','admissions.session_id')
+            //                          ->join('fees_types','fees_types.id','=','feeses.fees_type_id')->get()  ;
+            // dd($student_fees);
+            // $admission->fees_details = $admission->feeDetails->toArray();   // Array
+            // $fee_details_id = $admission->feeDetails->pluck('fees_type_id');
+            
+            // $feeTypes = FeesTypes::WhereIn('id',$fee_details_id)->get(['short_code', 'type'])->toArray();
+
+            // $all_fees_types = [];
+            // $i = 0;
+            // foreach($feeTypes as $feeType) {
+            //     $fees_types = [$feeType["short_code"] =>  $admission->fees_details[$i]["fees_amount"]];
+            //     $all_fees_types = array_merge($all_fees_types, $fees_types);
+            //     $i++;
+            // }
+
+            // $admission->fees_types = $all_fees_types;
+            $admission->section = $admission->section->section;
+            $admission->class = $admission->classes->class;
+            $admission->session = $admission->session->session;
+            $admission->campus = $admission->campus->campus;
+            $fee_detalis = $admission->feeDetails;           // Object
+
+            $months = Month::All();
+
+            $data = array(
+                "paid_feeses"   =>  $paid_feeses,
+                "month_paid_feeses"   =>  $month_paid_feeses,
+                'fee_detalis'   =>  $fees,
+                'admission'     =>  $admission,
+                'months'        =>  $months,
+                'page'          =>  'Admission',
+                'menu'          =>  'Collect Fees'
+            );
+
+            return view("fees.student.collect-fees", compact('data'));
+        }
     }
 
     /**
@@ -173,7 +258,51 @@ class FeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'month_ids'                 =>  'required|Array|min:1',
+            'fee_ids'                   =>  'required|Array|min:1',
+            'fee'                       =>  'required|Array|min:1',
+            'discount'                  =>  'required|Array|min:1',
+            'amount'                    =>  'required|Array|min:1',
+            'fine'                      =>  'required|Array|min:1',
+            'student_id'                =>  'required|numeric|gt:0|digits_between:1,11'
+        ]);
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+            
+            return response()->json($response);
+            
+        } else {
+
+            $i = 0;
+            foreach($request->month_ids as $data) {
+                $student_fees = new StudentFees;
+
+                $student_fees->student_id       = $request->student_id;
+                $student_fees->fees_id          = $request->fee_ids[$i];
+                $student_fees->month_id         = $request->month_ids[$i];
+                $student_fees->fees_amount      = $request->amount[$i];
+                $student_fees->fee_discount     = $request->discount[$i];
+                $student_fees->fine             = $request->fine[$i];
+                $student_fees->note             = "This is note";
+
+                $query = $student_fees->save();
+                $i++;
+            }
+            
+            $response = array(
+                'status'   =>  true, 
+                'message'  =>  'Student Fees has paid successfully.'
+            );
+
+            return response()->json($response);
+            
+        }
     }
 
     /**
