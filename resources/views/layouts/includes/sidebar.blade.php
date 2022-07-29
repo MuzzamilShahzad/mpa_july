@@ -69,10 +69,7 @@
                         <ul class="nav-sub">
                             <li class="side-menu-label1"><a href="javascript:;">Collect Fees</a></li>
                             <li class="nav-sub-item">
-                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Manage Fees' ? 'active' : '' }}" href="{{route('student.fees.listing')}}">Manage Registeration</a>
-                            </li>
-                            <li class="nav-sub-item">
-                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Add Fees' ? 'active' : '' }}" href="{{route('student.fees.create')}}">Add</a>
+                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Add Fees' ? 'active' : '' }}" href="{{route('fees.collectFees')}}">Add</a>
                             </li>
                         </ul>
                     </li>
