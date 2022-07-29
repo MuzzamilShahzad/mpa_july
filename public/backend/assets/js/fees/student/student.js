@@ -2336,12 +2336,15 @@ $(document).ready(function () {
         var fee_id = $(this).attr("fee-id");
 
         var month_name = "";
+        var note = "";
         var amount = 0;
         var fee = 0;
         var grand_total = 0;
         var discount = 0;
         var fine = 0;
         var month_length = $("#student-fee-collect-table-body").find("[month-id='" + month_id + "']").length;
+        var fee_discount = $('#fee_discount').html();
+        var fee_discount_amount = 0;
 
         if (month_length == 0) {
 
@@ -2349,6 +2352,7 @@ $(document).ready(function () {
             discount = $(this).parent().parent().find(".discount").val();
             fee = $(this).parent().parent().find(".fee").val();
             fine = $(this).parent().parent().find(".fine").val();
+            note = $(this).parent().parent().find(".note").val();
 
             if (!fine) {
                 fine = 0;
@@ -2368,19 +2372,26 @@ $(document).ready(function () {
 
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
-
-            var table_row = "<tr class='fees-row'><td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + month_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' month-id='" + month_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr > ";
+            var table_row = "<tr class='fees-row'><td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + month_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td> <textarea class='form-control note' readonly name='note[]' rows='1' col='30'>" + note + "</textarea> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' month-id='" + month_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr > ";
             $('#student-fee-collect-table-body').append(table_row);
             $('.fees-row').each(function () {
                 grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
+
+            if (fee_discount > 0) {
+                fee_discount_amount = (grand_total / 100) * fee_discount;
+                grand_total = grand_total - fee_discount_amount;
+            }
+
             $('#grand-total').html(grand_total);
+            $('#print-grand-total').html("Rs. " + grand_total + "/=");
 
         } else {
             month_name = $(this).parent().parent().find(".month").html();
             discount = $(this).parent().parent().find(".discount").val();
             fine = $(this).parent().parent().find(".fine").val();
             fee = $(this).parent().parent().find(".fee").val();
+            note = $(this).parent().parent().find(".note").val();
 
             if (!fine) {
                 fine = 0;
@@ -2399,12 +2410,18 @@ $(document).ready(function () {
             }
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
-            var table_row = "<td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + month_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' month-id='" + month_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td>";
+            var table_row = "<td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + month_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td><td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td> <textarea class='form-control note' readonly name='note[]' rows='1' col='30'>" + note + "</textarea> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' month-id='" + month_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td>";
             $("#student-fee-collect-table-body").find("[month-id='" + month_id + "']").parent().parent().html(table_row);
             $('.fees-row').each(function () {
                 grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
+            if (fee_discount > 0) {
+                fee_discount_amount = (grand_total / 100) * fee_discount;
+                grand_total = grand_total - fee_discount_amount;
+            }
+
             $('#grand-total').html(grand_total);
+            $('#print-grand-total').html("Rs. " + grand_total + "/=");
         }
 
     });
@@ -2421,6 +2438,8 @@ $(document).ready(function () {
         var discount = 0;
         var fine = 0;
         var result = $("#student-fee-collect-table-body").find("[data-id='" + data_id + "']").length;
+        var fee_discount = $('#fee_discount').html();
+        var fee_discount_amount = 0;
 
         if (result == 0) {
 
@@ -2428,6 +2447,7 @@ $(document).ready(function () {
             discount = $(this).parent().parent().find(".discount").val();
             fee = $(this).parent().parent().find(".fee").val();
             fine = $(this).parent().parent().find(".fine").val();
+            note = $(this).parent().parent().find(".note").val();
 
             if (!fine) {
                 fine = 0;
@@ -2447,13 +2467,17 @@ $(document).ready(function () {
 
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
-
-            var table_row = "<tr class='fees-row'><td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + other_fee_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr > ";
+            var table_row = "<tr class='fees-row'><td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + other_fee_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td> <textarea class='form-control note' readonly name='note[]' rows='1' col='30'>" + note + "</textarea> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td></tr > ";
             $('#student-fee-collect-table-body').append(table_row);
             $('.fees-row').each(function () {
                 grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
+            if (fee_discount > 0) {
+                fee_discount_amount = (grand_total / 100) * fee_discount;
+                grand_total = grand_total - fee_discount_amount;
+            }
             $('#grand-total').html(grand_total);
+            $('#print-grand-total').html("Rs. " + grand_total + "/=");
 
         } else {
 
@@ -2461,6 +2485,7 @@ $(document).ready(function () {
             discount = $(this).parent().parent().find(".discount").val();
             fine = $(this).parent().parent().find(".fine").val();
             fee = $(this).parent().parent().find(".fee").val();
+            note = $(this).parent().parent().find(".note").val();
 
 
             if (!fine) {
@@ -2480,12 +2505,18 @@ $(document).ready(function () {
             }
             amount = (parseInt(fee) + parseInt(fine)) - parseInt(discount);
 
-            var table_row = "<td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + other_fee_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td>";
+            var table_row = "<td> <input type='text' class='form-control' readonly name='name[]' id='name' value='" + other_fee_name + "' /> </td><td> <input type='number' class='form-control' readonly name='fee[]' id='fee' value='" + fee + "' /> </td><td id='discount'> <input type='number' class='form-control' readonly name='discount[]' id='discount' value='" + discount + "' /> </td><td> <input type='number' class='form-control' readonly name='fine[]' id='fine' value='" + fine + "' /> </td> <td> <input type='number' class='form-control' readonly name='amount[]' id='amount' value='" + amount + "' /> </td><td> <textarea class='form-control note' readonly name='note[]' rows='1' col='30'>" + note + "</textarea> </td><td><button class='btn btn-danger btn-sm btn-remove-fee' fee-id='" + fee_id + "' data-id='" + data_id + "'> <i class='fa fa-minus'></i> </button></td>";
             $("#student-fee-collect-table-body").find("[data-id='" + data_id + "']").parent().parent().html(table_row);
             $('.fees-row').each(function () {
                 grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
             });
+            if (fee_discount > 0) {
+                fee_discount_amount = (grand_total / 100) * fee_discount;
+                grand_total = grand_total - fee_discount_amount;
+            }
             $('#grand-total').html(grand_total);
+            $('#print-grand-total').html("Rs. " + grand_total + "/=");
+
         }
 
     });
@@ -2497,27 +2528,39 @@ $(document).ready(function () {
 
         var grand_total = 0;
         $('.fees-row').each(function () {
-            grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').html());
+            grand_total = parseInt(grand_total) + parseInt($(this).find('#amount').val());
         });
         $('#grand-total').html(grand_total);
-
 
     })
 
     $('#collect-selected-fees').on("click", function (e) {
         e.preventDefault();
 
+        var message = '';
+        var error_message = '';
+        var flag = true;
         var fee = $("input[name='fee[]']").map(function () { return $(this).val(); }).get();
         var discount = $("input[name='discount[]']").map(function () { return $(this).val(); }).get();
         var fine = $("input[name='fine[]']").map(function () { return $(this).val(); }).get();
         var amount = $("input[name='amount[]']").map(function () { return $(this).val(); }).get();
+        var note = $('#student-fee-collect-table-body').find('.note').map(function () { return $(this).val(); }).get();
         var student_id = $("#student-id").val();
+
+        if (fee == "") {
+            error_message += "Please add fees to save record.";
+            flag = false;
+        }
+
+        if (student_id == "") {
+            error_message += "Student ID not found.";
+            flag = false;
+        }
 
         var btns = $(".btn-remove-fee");
 
         var month_ids = [];
         var fee_ids = [];
-
         btns.each(function () {
             month_ids.push($(this).attr('month-id'))
             fee_ids.push($(this).attr('fee-id'))
@@ -2530,62 +2573,254 @@ $(document).ready(function () {
             "amount": amount,
             "month_ids": month_ids,
             "fee_ids": fee_ids,
-            "student_id": student_id
+            "student_id": student_id,
+            "note": note
         };
 
-        $.ajax({
-            url: baseUrl + '/fees/store',
-            type: "POST",
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            data: formData,
-            dataType: "json",
-            success: function (response) {
+        if (flag) {
 
-                if (response.status === false) {
+            $.ajax({
+                url: baseUrl + '/fees/store',
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                data: formData,
+                dataType: "json",
+                success: function (response) {
 
-                    if (response.error) {
+                    if (response.status === false) {
 
-                        message = `<div class="alert alert-danger alert-dismissible">
+                        if (response.error) {
+
+                            message = `<div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                     <strong> Whoops !</strong> Something went wrong please contact to admintrator.
                                 </div>`;
 
-                    } else {
+                        } else {
 
-                        message += `<div class="alert alert-success alert-dismissible">
+                            message += `<div class="alert alert-success alert-dismissible">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                         <strong> Error!</strong> `+ response.message + `
                                     </div>`;
-                    }
+                        }
 
-                } else {
+                    } else {
 
-                    // will remove all the added elemetns
-
-                    message += `<div class="alert alert-success alert-dismissible">
+                        // will remove all the added elemetns
+                        message += `<div class="alert alert-success alert-dismissible">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                     <strong> Success!</strong> `+ response.message + `
                                 </div>`;
-                }
-            },
-            error: function () {
-                message = `<div class="alert alert-danger alert-dismissible">
+                    }
+                },
+                error: function () {
+                    message = `<div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                 <strong> Whoops !</strong> Something went wrong please contact to admintrator.
                             </div>`;
-            },
-            complete: function () {
+                },
+                complete: function () {
 
-                if (message !== '') {
-                    $("#collect-selected-fees").after(message);
-                    setTimeout(function () {
-                        $(".alert").remove();
-                    }, 4000);
+                    if (message !== '') {
+                        $("#collect-selected-fees").parent().after(message);
+                        setTimeout(function () {
+                            $(".alert").remove();
+                        }, 4000);
+                    }
+
+                    location.reload();
                 }
+            });
+
+        } else {
+            if (error_message !== '') {
+                message += `<div class="alert alert-danger alert-dismissible m-2">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong> Success!</strong> `+ error_message + `
+                                </div>`;
+
+                $("#collect-selected-fees").parent().after(message);
+                setTimeout(function () {
+                    $(".alert").remove();
+                }, 4000);
             }
+        }
+    });
+
+    $('#collect-and-print-fees-record').on("click", function (e) {
+        e.preventDefault();
+
+        var message = '';
+        var error_message = '';
+        var flag = true;
+        var invoice_id = '';
+        var fee = $("input[name='fee[]']").map(function () { return $(this).val(); }).get();
+        var discount = $("input[name='discount[]']").map(function () { return $(this).val(); }).get();
+        var fine = $("input[name='fine[]']").map(function () { return $(this).val(); }).get();
+        var amount = $("input[name='amount[]']").map(function () { return $(this).val(); }).get();
+        var note = $('#student-fee-collect-table-body').find('.note').map(function () { return $(this).val(); }).get();
+        var name = $("input[name='name[]']").map(function () { return $(this).val(); }).get();
+        var student_id = $("#student-id").val();
+        var fee_discount = $("#fee-discount").val();
+        var grand_total = 0;
+
+
+        for (var i = 0; i < amount.length; i++) {
+            grand_total += parseInt(amount[i])
+        }
+
+        var total_fine = 0;
+        var total_discount = 0;
+
+
+        var table_row = "";
+
+        if (fee == "") {
+            error_message += "Please add fees to save record.";
+            flag = false;
+        }
+
+        if (student_id == "") {
+            error_message += "Student ID not found.";
+            flag = false;
+        }
+
+        var btns = $(".btn-remove-fee");
+
+        var month_ids = [];
+        var fee_ids = [];
+        btns.each(function () {
+            month_ids.push($(this).attr('month-id'))
+            fee_ids.push($(this).attr('fee-id'))
         });
 
+        formData = {
+            "fee": fee,
+            "discount": discount,
+            "fine": fine,
+            "amount": amount,
+            "month_ids": month_ids,
+            "fee_ids": fee_ids,
+            "student_id": student_id,
+            "note": note,
+            "fee_discount": fee_discount
+        };
+
+        if (flag) {
+
+            $.ajax({
+                url: baseUrl + '/fees/collect-and-print',
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                data: formData,
+                dataType: "json",
+                success: function (response) {
+
+                    if (response.status === false) {
+
+                        if (response.error) {
+
+                            message = `<div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong> Whoops !</strong> Something went wrong please contact to admintrator.
+                                </div>`;
+
+                        } else {
+
+                            message += `<div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                        <strong> Error!</strong> `+ response.message + `
+                                    </div>`;
+                        }
+
+                    } else {
+
+                        // will remove all the added elemetns
+                        invoice_id = response.invoice_id;
+                        message += `<div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong> Success!</strong> `+ response.message + `
+                                </div>`;
+                    }
+                },
+                error: function () {
+                    message = `<div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <strong> Whoops !</strong> Something went wrong please contact to admintrator.
+                            </div>`;
+                },
+                complete: function () {
+
+                    if (message !== '') {
+                        $("#collect-and-print-fees-record").parent().after(message);
+                        setTimeout(function () {
+                            $(".alert").remove();
+                        }, 4000);
+                    }
+
+                    jQuery.each(amount, function (index, amount) {
+
+                        if (month_ids[index]) {
+                            table_row += "<tr> <td> " + padNum(invoice_id, 5) + " </td> <td>" + name[index] + "</td> <td>Tution Fee</td> <td>Rs. " + amount + "/=</td> </tr>";
+                            // console.log("Id: " + index + " Amount: " + + amount + " Fee: " + fee[index] + " Details: " + name[index] + " Month: " + month_ids[index]);
+                        } else {
+                            table_row += "<tr> <td>" + padNum(invoice_id, 5) + "</td> <td> -- </td> <td>" + name[index] + "</td> <td>Rs. " + amount + "/=</td> </tr>";
+                        }
+
+                        total_fine = parseInt(total_fine) + parseInt(fine[index]);
+                        total_discount = parseInt(total_discount) + parseInt(discount[index]);
+
+                    });
+
+                    $('#receipt_no').html("Receipt No:. " + padNum(invoice_id, 5))
+                    $('#print-fees-record-table-body').html(table_row);
+
+                    if (total_fine > 0) {
+                        var fine_row = "<tr> <td>Fine</td><td></td><td>Total Fine</td><td>Rs. " + total_fine + "/=</td> </tr>";
+                        $('#print-fees-record-table-body').append(fine_row);
+                    }
+
+                    if (total_discount > 0) {
+                        var discount_row = "<tr> <td>Discount</td><td></td><td>Total Discount</td><td>Rs. " + total_discount + "/=</td> </tr>";
+                        $('#print-fees-record-table-body').append(discount_row);
+                    }
+
+                    if (fee_discount > 0) {
+                        var profile_discount_row = "<tr> <td>Profile Discount</td><td></td><td>Profile Discount</td><td>Rs. " + ((parseInt(grand_total) / 100) * parseInt(fee_discount)) + "/= (" + fee_discount + ")" + "%</td> </tr>";
+                        $('#print-fees-record-table-body').append(profile_discount_row);
+                    }
+
+                    var btn_print_sticker = document.getElementById('print-student-fees-voucher');
+                    var newWin = window.open('', 'Print-Window');
+                    newWin.document.open();
+                    newWin.document.write('<html><body onload="window.print()"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">' + btn_print_sticker.innerHTML + '</body></html>');
+                    newWin.focus();
+                    newWin.print();
+                    newWin.document.close();
+
+                    location.reload();
+                }
+            });
+
+        } else {
+            if (error_message !== '') {
+                message += `<div class="alert alert-danger alert-dismissible m-2">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong> Success!</strong> `+ error_message + `
+                                </div>`;
+
+                $("#collect-and-print-fees-record").parent().after(message);
+                setTimeout(function () {
+                    $(".alert").remove();
+                }, 4000);
+            }
+        }
     });
+
+    function padNum(num, length) {
+        return Array((length + 1) - num.toString().length).join("0") + num;
+    }
+
 
     // Start Delete Data Script
     // $(document).on('click', '#btn-delete-admission', function () {

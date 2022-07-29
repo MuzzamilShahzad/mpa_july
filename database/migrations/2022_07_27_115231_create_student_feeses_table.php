@@ -26,12 +26,15 @@ return new class extends Migration
             $table->unsignedInteger('month_id')->nullable();
             $table->foreign('month_id')->references('id')->on('months')->onDelete('cascade');
 
+            $table->unsignedInteger('invoice_id')->nullable();
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+
             // $table->unique(['student_id','fees_id','month_id']);
 
             $table->integer('fees_amount');
-            $table->tinyInteger('fee_discount')->nullable();
-            $table->tinyInteger('fine')->nullable();
-            $table->string('note',60);
+            $table->integer('fee_discount')->nullable();
+            $table->integer('fine')->nullable();
+            $table->string('note',60)->nullable();
            
             $table->timestamps();
         });
