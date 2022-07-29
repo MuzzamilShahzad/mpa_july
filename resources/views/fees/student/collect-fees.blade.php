@@ -141,7 +141,7 @@
                                         @foreach($data["months"] as $month)
                                         <tr>
                                             <td class="month"> {{ $month->month }} {{ $data["admission"]->session }} </td>
-                                            <td> <input type="text" name="fee" class="fee form-control" value="{{ $fee_detail->fees_amount }}"> </td>
+                                            <td> <input type="number" name="fee" class="fee form-control" value="{{ $fee_detail->fees_amount }}"> </td>
                                             @php
                                             
                                             $key = '';
@@ -152,13 +152,13 @@
                                             }
 
                                             @endphp
-                                            <td> <input type="text" name="discount" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fee_discount"] : '' }}" class="discount form-control"> </td>
-                                            <td> <input type="text" name="fine" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fine"] : '' }}" class="fine form-control"> </td>
+                                            <td> <input type="number" name="discount" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fee_discount"] : '' }}" class="discount form-control"> </td>
+                                            <td> <input type="number" name="fine" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fine"] : '' }}" class="fine form-control"> </td>
                                             <td> <textarea class="form-control note" name="note" cols="30" rows="1"></textarea> </td>
                                             <td>
 
                                                 @if(in_array($month->id, $data["month_paid_feeses"]))
-                                                <div class="badge bg-success btn-add-fee" month-id="{{ $month->id }}" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}">Paid</div>
+                                                <div class="badge bg-success" month-id="{{ $month->id }}" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}">Paid</div>
                                                 @else
                                                 <button class="btn btn-primary btn-sm btn-add-fee" month-id="{{ $month->id }}" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}"> <i class="fa fa-plus"></i> </button>
                                                 @endif
@@ -223,7 +223,7 @@
                                         @if($fee_detail->short_code != 'MF')
                                         <tr>
                                             <td class="other_fee_name"> {{ $fee_detail->type }} </td>
-                                            <td> <input type="text" name="fee" class="fee form-control" value="{{ $fee_detail->fees_amount }}"> </td>
+                                            <td> <input type="number" name="fee" class="fee form-control" value="{{ $fee_detail->fees_amount }}"> </td>
 
                                             @php
                                             
@@ -236,14 +236,14 @@
 
                                             @endphp
 
-                                            <td> <input type="text" name="discount" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fee_discount"] : '' }}" class="discount form-control"> </td>
-                                            <td> <input type="text" name="fine" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fine"] : '' }}" class="fine form-control"> </td>
+                                            <td> <input type="number" name="discount" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fee_discount"] : '' }}" class="discount form-control"> </td>
+                                            <td> <input type="number" name="fine" value="{{ isset($key) && $key >= 0 ? $data["paid_feeses"][$key]["fine"] : '' }}" class="fine form-control"> </td>
                                             <td> <textarea class="form-control note" name="note" cols="30" rows="1"></textarea> </td>
 
                                             <td>
 
                                                 @if(in_array($fee_detail->id, $data["paid_feeses_ids"]))
-                                                <div class="badge bg-success btn-add-other-fee" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}">Paid</div>
+                                                <div class="badge bg-success" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}">Paid</div>
                                                 @else
                                                 <button class="btn btn-primary btn-sm btn-add-other-fee" fee-id="{{ $fee_detail->fees_type_id }}" data-id="{{ $fee_detail->id }}"> <i class="fa fa-plus"></i> </button>
                                                 @endif
